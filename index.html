@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindNeuro | Istituto di Medicina Predittiva</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==========================================
+           1. ARCHITETTURA VISIVA E COLORI (DARK DEFAULT)
+           ========================================== */
+        :root {
+            --bg-dark: #050506;
+            --bg-surface: #0a0a0c;
+            --bg-card: #0f0f11;
+            
+            --accent: #c4b49e; 
+            --accent-muted: rgba(196, 180, 158, 0.3);
+            --text-main: #f5f5f7;
+            --text-muted: #8e8e93;
+            --border-fine: rgba(255, 255, 255, 0.08);
+            
+            --font-serif: 'Cormorant Garamond', serif;
+            --font-sans: 'Plus Jakarta Sans', sans-serif;
+            
+            --ease-luxury: cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        /* ==========================================
+           1.1. LIGHT MODE (EDITORIAL & LUXURY CLINIC)
+           ========================================== */
+        body.light-mode {
+            --bg-dark: #FDFBF7;
+            --bg-surface: #F5F2EB;
+            --bg-card: #FFFFFF;
+            
+            --accent: #9A8367;
+            --accent-muted: rgba(154, 131, 103, 0.2);
+            --text-main: #18181A;
+            --text-muted: #6B6B70;
+            --border-fine: rgba(0, 0, 0, 0.08);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: var(--bg-dark); }
+        ::-webkit-scrollbar-thumb { background: var(--accent-muted); }
+        
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            transition: background-color 0.8s var(--ease-luxury), color 0.8s var(--ease-luxury);
+        }
+
+        .container { width: 100%; max-width: 1440px; margin: 0 auto; padding: 0 4vw; position: relative; z-index: 2; }
+
+        /* ==========================================
+           2. TIPOGRAFIA E ANIMAZIONI 3D
+           ========================================== */
+        h1, h2, h3, h4 { font-family: var(--font-serif); font-weight: 400; line-height: 1.1; letter-spacing: -0.01em; }
+        
+        .title-giant { font-size: clamp(3.2rem, 6vw, 6.5rem); color: var(--text-main); }
+        .title-giant em { font-style: italic; color: var(--accent); }
+        
+        .title-section { font-size: clamp(2.5rem, 4vw, 4rem); margin-bottom: 1.5rem; }
+        .title-section em { font-style: italic; color: var(--accent); }
+
+        .text-lead { font-size: clamp(0.95rem, 1.1vw, 1.15rem); color: var(--text-muted); line-height: 1.7; font-weight: 300; }
+        
+        .section-meta {
+            font-family: var(--font-sans); font-size: 0.65rem; text-transform: uppercase;
+            letter-spacing: 0.25em; color: var(--accent); display: block; margin-bottom: 1rem; font-weight: 600;
+        }
+
+        .btn-luxury {
+            display: inline-flex; align-items: center; justify-content: center; padding: 0.9rem 2.2rem; background: transparent;
+            color: var(--text-main); font-family: var(--font-sans); font-size: 0.75rem;
+            text-transform: uppercase; font-weight: 500; letter-spacing: 0.15em;
+            border: 1px solid var(--accent-muted); cursor: pointer; text-decoration: none;
+            transition: all 0.4s var(--ease-luxury); position: relative;
+        }
+        .btn-luxury:hover { border-color: var(--accent); background: var(--accent-muted); transform: translateY(-2px); }
+
+        .btn-link {
+            display: inline-flex; align-items: center; gap: 0.5rem; color: var(--accent);
+            font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em;
+            text-decoration: none; border-bottom: 1px solid transparent; padding-bottom: 2px;
+            transition: border-color 0.3s; margin-top: 1.5rem; font-weight: 500;
+        }
+        .btn-link:hover { border-color: var(--accent); }
+
+        .reveal-word { 
+            display: inline-block; overflow: hidden; vertical-align: bottom; 
+            perspective: 1000px; padding-bottom: 0.15em; margin-bottom: -0.15em;
+        }
+        .reveal-word span { 
+            display: inline-block; 
+            transform: translateY(120%) rotateX(-90deg); 
+            transform-origin: top center; 
+            opacity: 0; 
+            will-change: transform, opacity;
+        }
+
+        /* ==========================================
+           3. NAVBAR SOTTILE & HAMBURGER MENU
+           ========================================== */
+        .navbar {
+            position: fixed; top: 0; left: 0; width: 100%; padding: 1rem 4vw;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 1000; background: rgba(5, 5, 6, 0.85);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-fine);
+            transition: background 0.8s, border-color 0.8s;
+        }
+        body.light-mode .navbar { background: rgba(253, 251, 247, 0.85); }
+        
+        .brand { font-family: var(--font-serif); font-size: 1.4rem; color: var(--text-main); text-decoration: none; letter-spacing: -0.02em; position: relative; z-index: 1002;}
+        .brand em { font-style: italic; color: var(--accent); }
+        
+        .nav-links { display: flex; gap: 2.5rem; align-items: center; list-style: none; }
+        .nav-link { font-family: var(--font-sans); font-size: 0.75rem; text-transform: uppercase; text-decoration: none; color: var(--text-muted); transition: color 0.3s; font-weight: 500; letter-spacing: 0.1em; cursor: pointer; }
+        .nav-link:hover { color: var(--accent); }
+
+        .nav-actions-group { border-left: 1px solid var(--border-fine); padding-left: 2.5rem; display: flex; align-items: center; gap: 1.5rem; }
+
+        .nav-mobile-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; z-index: 1002; padding: 10px; }
+        .nav-mobile-toggle span { width: 22px; height: 1px; background: var(--text-main); transition: 0.3s; }
+        
+        /* ==========================================
+           4. HERO & OVERLAY DINAMICO
+           ========================================== */
+        .hero { position: relative; height: 100vh; width: 100%; overflow: hidden; display: flex; align-items: flex-end; padding-bottom: 10vh; }
+        #hero-canvas { position: absolute; inset: 0; z-index: 1; }
+        
+        .hero-overlay { 
+            position: absolute; inset: 0; 
+            background: linear-gradient(to top, var(--bg-dark) 5%, transparent 60%); 
+            z-index: 2; pointer-events: none; transition: background 0.8s;
+        }
+        
+        .hero-interface { position: relative; z-index: 3; width: 100%; display: flex; justify-content: space-between; align-items: flex-end; }
+        .hero-controls { display: flex; align-items: center; gap: 1.5rem; margin-bottom: 1.5rem; }
+        .hero-arrow { background: transparent; border: 1px solid var(--border-fine); color: var(--text-main); width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s; font-size: 0.9rem; }
+        .hero-arrow:hover { border-color: var(--accent); color: var(--accent); }
+        .hero-indicator { font-family: var(--font-sans); font-size: 0.75rem; letter-spacing: 0.15em; color: var(--text-muted); min-width: 60px; text-align: center; }
+
+        /* ==========================================
+           5. DATA STRIP
+           ========================================== */
+        .data-strip { padding: 2.5rem 0; background: var(--bg-surface); border-bottom: 1px solid var(--border-fine); position: relative; z-index: 5; transition: background 0.8s; }
+        .data-strip-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 2rem; }
+        .data-item { display: flex; align-items: center; gap: 1rem; }
+        .data-num { font-family: var(--font-serif); font-size: 1.6rem; color: var(--accent); font-style: italic; }
+        .data-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); font-weight: 500; }
+
+        /* ==========================================
+           6. DIGITAL TWIN (DEEP DIVE)
+           ========================================== */
+        .digital-twin-section { background: var(--bg-dark); position: relative; overflow: hidden; transition: background 0.8s; }
+        .dt-pin-container { height: 100vh; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+        
+        .dt-ui-layer { position: absolute; z-index: 10; text-align: center; max-width: 600px; padding: 0 4vw; pointer-events: none; }
+        .dt-tunnel { position: absolute; inset: 0; z-index: 1; display: flex; align-items: center; justify-content: center; perspective: 1000px; }
+        
+        .dt-layer { position: absolute; inset: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; opacity: 0; will-change: transform, opacity, filter; }
+        .dt-layer img { width: 100vw; height: 100vh; object-fit: cover; opacity: 0.6; filter: grayscale(1); }
+        
+        .dt-info { position: absolute; bottom: 10vh; left: 5vw; z-index: 2; border-left: 1px solid var(--accent); padding-left: 1.5rem; }
+        .dt-info h3 { font-size: 2rem; color: var(--text-main); margin-bottom: 0.5rem; }
+        .dt-info p { font-family: var(--font-sans); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); }
+
+        .dt-final-ui { position: absolute; z-index: 20; text-align: center; opacity: 0; visibility: hidden; }
+
+        /* ==========================================
+           7. DIPARTIMENTI 
+           ========================================== */
+        .units { padding: 10vw 0; background: var(--bg-surface); transition: background 0.8s; }
+        .units-editorial-flow { display: flex; flex-direction: column; gap: 10vw; margin-top: 6vw; }
+        
+        .unit-row { display: grid; grid-template-columns: 5fr 5fr; gap: 8vw; align-items: center; }
+        .unit-row:nth-child(even) { grid-template-columns: 5fr 5fr; }
+        .unit-row:nth-child(even) .unit-media-wrapper { grid-column: 2; }
+        .unit-row:nth-child(even) .unit-text-wrapper { grid-column: 1; grid-row: 1; }
+
+        .unit-media-wrapper { width: 100%; aspect-ratio: 4/3; overflow: hidden; position: relative; clip-path: inset(100% 0 0 0); }
+        .unit-media-wrapper img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) brightness(0.65); transition: filter 1s var(--ease-luxury), transform 1.5s var(--ease-luxury); transform: scale(1.1); }
+        body.light-mode .unit-media-wrapper img { filter: grayscale(1) brightness(0.9); }
+        .unit-row:hover .unit-media-wrapper img { filter: grayscale(0) brightness(1); transform: scale(1); }
+
+        .unit-text-wrapper { padding: 1rem 0; }
+        .unit-title-num { font-family: var(--font-serif); font-style: italic; color: var(--accent); font-size: 1.3rem; margin-bottom: 0.5rem; display: block; }
+        .unit-title { font-size: 2.5rem; color: var(--text-main); margin-bottom: 1rem; }
+
+        /* ==========================================
+           8. PIATTAFORME DIAGNOSTICHE
+           ========================================== */
+        .tech-hardware { padding: 12vw 0; background: var(--bg-dark); transition: background 0.8s; }
+        .hw-container { display: grid; grid-template-columns: 4.5fr 5.5fr; gap: 7vw; align-items: start; }
+        
+        .hw-sticky-panel { position: sticky; top: 15vh; z-index: 10; }
+        .hw-viewport { width: 100%; aspect-ratio: 3/4; overflow: hidden; position: relative; border: 1px solid var(--border-fine); clip-path: inset(0 100% 0 0); }
+        .hw-slide-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; visibility: hidden; transition: opacity 0.8s var(--ease-luxury), transform 1s var(--ease-luxury); transform: scale(1.05); filter: brightness(0.8) grayscale(0.5); }
+        .hw-slide-img.active { opacity: 1; visibility: visible; transform: scale(1); }
+        body.light-mode .hw-slide-img { filter: brightness(0.95) grayscale(0.3); }
+
+        .hw-scroller { display: flex; flex-direction: column; gap: 20vh; padding-top: 10vh; padding-bottom: 20vh; position: relative; z-index: 11; }
+        .hw-block { opacity: 0.2; transition: opacity 0.5s var(--ease-luxury), border-color 0.5s; border-left: 1px solid var(--border-fine); padding-left: 2.5rem; }
+        .hw-block.active-panel { opacity: 1; border-color: var(--accent); }
+        .hw-block-title { font-size: 2.5rem; margin-bottom: 1.2rem; }
+        
+        .hw-spec-sheet { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; margin-top: 2.5rem; border-top: 1px solid var(--border-fine); padding-top: 2rem; }
+        .spec-data { font-family: var(--font-serif); font-size: 1.5rem; color: var(--accent); font-style: italic; margin-top: 0.2rem; }
+
+        /* ==========================================
+           9. EQUIPE MEDICA
+           ========================================== */
+        .board-section { background: var(--bg-surface); padding: 8vw 0; overflow: hidden; position: relative; border-top: 1px solid var(--border-fine); transition: background 0.8s; }
+        .board-pin-container { display: flex; align-items: center; padding: 10vh 0; position: relative; }
+        .board-horizontal-track { display: flex; gap: 3vw; padding-left: 4vw; will-change: transform; align-items: center; }
+        
+        .doctor-horizontal-card {
+            width: 600px; height: 320px; 
+            background: var(--bg-card); border: 1px solid var(--border-fine);
+            display: grid; grid-template-columns: 220px 1fr;
+            transition: border-color 0.4s, background 0.8s;
+        }
+        .doctor-horizontal-card:hover { border-color: var(--accent-muted); }
+        
+        .doc-media { overflow: hidden; position: relative; height: 100%; border-right: 1px solid var(--border-fine); }
+        .doc-media img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) brightness(0.9); transition: transform 0.8s, filter 0.8s; }
+        .doctor-horizontal-card:hover .doc-media img { transform: scale(1.05); filter: grayscale(0) brightness(1); }
+        
+        .doc-bio-content { padding: 2.5rem 2rem; display: flex; flex-direction: column; justify-content: center; gap: 0.5rem; }
+        .doc-name { font-size: 1.8rem; color: var(--text-main); line-height: 1.1; margin-bottom: 0.2rem; }
+        .doc-role { font-family: var(--font-sans); font-size: 0.65rem; text-transform: uppercase; color: var(--accent); letter-spacing: 0.15em; font-weight: 600; }
+        .doc-text { font-size: 0.85rem; line-height: 1.6; color: var(--text-muted); margin-top: 0.5rem; }
+
+        /* ==========================================
+           10. PORTALE E TRIAGE
+           ========================================== */
+        .booking { padding: 10vw 0; background: var(--bg-dark); border-top: 1px solid var(--border-fine); transition: background 0.8s; }
+        .booking-split { display: grid; grid-template-columns: 1fr 1fr; gap: 8vw; }
+        
+        .availability-badge {
+            display: inline-flex; align-items: center; gap: 0.8rem; padding: 0.8rem 1.2rem;
+            background: rgba(196, 180, 158, 0.05); border: 1px solid var(--accent-muted);
+            font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em;
+            color: var(--text-main); margin-bottom: 2rem; font-weight: 500;
+        }
+        .pulse-dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 10px var(--accent-muted); animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+
+        .field-container { margin-bottom: 3.5rem; position: relative; }
+        .field-input { width: 100%; background: transparent; border: none; color: var(--text-main); padding: 1rem 0; font-family: var(--font-sans); font-size: 1rem; outline: none; font-weight: 400; position: relative; z-index: 2; }
+        .field-input::placeholder { color: var(--text-muted); opacity: 0.6; }
+        
+        .field-line { position: absolute; bottom: 0; left: 0; width: 100%; height: 1px; background: var(--border-fine); z-index: 1; }
+        .field-line::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 1px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 0.4s var(--ease-luxury); }
+        .field-input:focus ~ .field-line::after { transform: scaleX(1); }
+
+        .btn-submit-form { background: var(--accent); color: var(--bg-card); border: none; padding: 1.1rem 3rem; font-family: var(--font-sans); font-size: 0.75rem; text-transform: uppercase; font-weight: 600; cursor: pointer; letter-spacing: 0.15em; transition: all 0.4s var(--ease-luxury); margin-top: 1rem; }
+        .btn-submit-form:hover { opacity: 0.8; transform: translateY(-2px); }
+
+        /* ==========================================
+           11. FOOTER 
+           ========================================== */
+        footer { background: var(--bg-surface); padding: 6vw 0 2vw 0; border-top: 1px solid var(--border-fine); transition: background 0.8s; }
+        .footer-matrix { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 4vw; margin-bottom: 5vw; }
+        .footer-list { list-style: none; display: flex; flex-direction: column; gap: 1rem; }
+        .footer-list a { color: var(--text-muted); text-decoration: none; transition: color 0.3s; font-size: 0.85rem; font-weight: 400; }
+        .footer-list a:hover { color: var(--accent); }
+        .footer-row-bottom { display: flex; justify-content: space-between; border-top: 1px solid var(--border-fine); padding-top: 2rem; font-size: 0.75rem; color: var(--text-muted); }
+
+        /* ==========================================
+           12. BANNER SITO VETRINA
+           ========================================== */
+        .demo-banner {
+            position: fixed; bottom: 20px; right: 20px;
+            background: #171717; border-radius: 4px;
+            padding: 1.5rem; width: 340px; z-index: 9999;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            font-family: var(--font-sans);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .demo-banner-title { color: #A86442; font-size: 1.1rem; margin-bottom: 0.8rem; font-family: var(--font-sans); font-weight: 500;}
+        .demo-banner-text { color: #e0e0e0; font-size: 0.85rem; line-height: 1.5; margin-bottom: 1.5rem; font-weight: 300;}
+        .demo-banner-btn {
+            display: block; text-align: center; background: #965030; color: #fff;
+            text-decoration: none; padding: 0.9rem; font-size: 0.75rem;
+            text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600;
+            border-radius: 2px; transition: background 0.3s;
+        }
+        .demo-banner-btn:hover { background: #b05f3b; }
+
+        /* ==========================================
+           13. RESPONSIVE
+           ========================================== */
+        @media (max-width: 1024px) {
+            .hw-container, .unit-row, .unit-row:nth-child(even) { grid-template-columns: 1fr; gap: 3rem; }
+            .hw-sticky-panel { position: sticky; top: 12vh; }
+            .hw-viewport { aspect-ratio: 16/9; max-height: 40vh; }
+            .hw-scroller { gap: 10vh; padding-top: 5vh; padding-bottom: 10vh; }
+            .hw-block { opacity: 0.3; }
+            .hw-block.active-panel { opacity: 1; }
+            .unit-row:nth-child(even) .unit-media-wrapper { grid-column: 1; }
+            .unit-row:nth-child(even) .unit-text-wrapper { grid-column: 1; grid-row: 2; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-mobile-toggle { display: flex; }
+            .nav-links {
+                position: fixed; top: 0; right: -100%; width: 280px; height: 100vh;
+                background: rgba(5, 5, 6, 0.98); border-left: 1px solid var(--border-fine);
+                flex-direction: column; justify-content: center; align-items: flex-start;
+                padding: 2rem; transition: right 0.5s var(--ease-luxury); z-index: 1000;
+            }
+            body.light-mode .nav-links { background: rgba(253, 251, 247, 0.98); }
+            .nav-links.active { right: 0; }
+            
+            .data-strip-inner { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
+            .booking-split { grid-template-columns: 1fr; gap: 4rem; }
+            
+            .board-pin-container { padding: 4rem 0; display: flex; }
+            .board-horizontal-track { flex-direction: row !important; gap: 5vw; width: max-content; padding-left: 4vw; padding-right: 4vw;}
+            .doctor-horizontal-card { width: 85vw; height: auto; grid-template-columns: 1fr; }
+            .doc-media { height: 300px; border-right: none; border-bottom: 1px solid var(--border-fine); }
+            
+            .footer-matrix { grid-template-columns: 1fr; gap: 3rem; }
+            .footer-row-bottom { flex-direction: column; gap: 1rem; }
+            
+            .demo-banner { bottom: 10px; right: 10px; width: calc(100% - 20px); max-width: 340px; padding: 1.2rem; }
+        }
+		/* ==========================================
+   FIX ANIMAZIONE PIATTAFORME MOBILE
+   ========================================== */
+@media (max-width: 1024px) {
+    .hw-container {
+        display: flex !important;
+        flex-direction: column;
+    }
+    
+    .hw-sticky-panel {
+        position: sticky !important;
+        top: 70px !important; /* Blocca l'immagine sotto la barra di navigazione */
+        z-index: 20 !important;
+        
+        /* Questo è il trucco: crea una maschera solida che nasconde il testo 
+           quando ci scorre dietro. Si adatta alla Light/Dark mode. */
+        background-color: var(--bg-dark); 
+        padding-top: 1rem;
+        padding-bottom: 2rem;
+        margin-bottom: 0;
+    }
+    
+    .hw-scroller {
+        position: relative;
+        z-index: 5;
+        gap: 15vh !important;
+        padding-top: 5vh !important;
+    }
+    
+    .hw-block {
+        /* Ripristiniamo le opacità per far funzionare di nuovo l'animazione JS */
+        opacity: 0.3 !important; 
+        transition: opacity 0.5s var(--ease-luxury), border-color 0.5s;
+        background-color: transparent !important;
+    }
+    
+    .hw-block.active-panel {
+        opacity: 1 !important; /* Si illumina quando arriva a centro schermo */
+    }
+}
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="#" class="brand">Mind<em>Neuro</em></a>
+        
+        <div class="nav-mobile-toggle" id="mobile-menu-btn">
+            <span></span><span></span><span></span>
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="#twin" class="nav-link">Digital Twin</a></li>
+            <li><a href="#unita" class="nav-link">Dipartimenti</a></li>
+            <li><a href="#tecnologia" class="nav-link">Piattaforme</a></li>
+            <li><a href="#comitato" class="nav-link">Équipe</a></li>
+            <li class="nav-login" style="margin-top: 1rem;">
+                <button id="theme-toggle" class="nav-link" style="background:none; border:none; padding:0; margin-right: 1.5rem; text-align: left;">Mode: Chiaro</button>
+                <a href="#prenota" class="nav-link" style="color:var(--text-main); display: block; margin-top: 1rem;">Area Pazienti &rarr;</a>
+            </li>
+        </ul>
+    </nav>
+
+    <section class="hero">
+        <div id="hero-canvas"></div>
+        <div class="hero-overlay"></div>
+        
+        <div class="container hero-interface">
+            <div>
+                <div class="hero-controls">
+                    <button class="hero-arrow" id="slide-prev">←</button>
+                    <span class="hero-indicator" id="slide-index">01 / 03</span>
+                    <button class="hero-arrow" id="slide-next">→</button>
+                </div>
+                <h1 class="title-giant text-animate-3d">
+                    Medicina Predittiva.<br><em>Prevenzione Assoluta.</em>
+                </h1>
+            </div>
+        </div>
+    </section>
+
+    <section class="data-strip">
+        <div class="container data-strip-inner">
+            <div class="data-item">
+                <span class="data-num">99.9%</span>
+                <span class="data-label">Accuratezza Referti</span>
+            </div>
+            <div class="data-item">
+                <span class="data-num">7 Tesla</span>
+                <span class="data-label">Risoluzione Strutturale</span>
+            </div>
+            <div class="data-item">
+                <span class="data-num">48h</span>
+                <span class="data-label">Analisi & Consegna</span>
+            </div>
+            <div class="data-item">
+                <span class="data-num">Swiss</span>
+                <span class="data-label">Standard Privacy</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="digital-twin-section" id="twin">
+        <div class="dt-pin-container" id="dt-pin">
+            
+            <div class="dt-ui-layer" id="dt-initial-ui">
+                <span class="section-meta text-animate-3d">Biomodellazione 4D</span>
+                <h2 class="title-section text-animate-3d">Generazione del<br><em>Digital Twin.</em></h2>
+                <p class="text-lead text-animate-3d">Estraiamo i dati macroscopici, cellulari e genetici per creare un avatar virtuale. Questo ci permette di simulare terapie e invecchiamento biologico in ambiente digitale, prima di qualsiasi intervento.</p>
+                <div style="margin-top: 2rem;" class="section-meta">Scorri per avviare la sintesi ↓</div>
+            </div>
+
+            <div class="dt-tunnel">
+                <div class="dt-layer" id="layer-1">
+                    <img src="https://images.unsplash.com/photo-1559757175-5700dde675bc?q=80&w=2000&auto=format&fit=crop" alt="Scansione Macro">
+                    <div class="dt-info">
+                        <h3>01. Topografia Corticale</h3>
+                        <p>Mappatura strutturale ad alta risoluzione 7T</p>
+                    </div>
+                </div>
+                <div class="dt-layer" id="layer-2">
+                    <img src="https://images.unsplash.com/photo-1530026405186-ed1f139313f8?q=80&w=2000&auto=format&fit=crop" alt="Scansione Cellulare">
+                    <div class="dt-info">
+                        <h3>02. Rete Sinaptica</h3>
+                        <p>Identificazione marker infiammatori</p>
+                    </div>
+                </div>
+                <div class="dt-layer" id="layer-3">
+                    <img src="https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?q=80&w=2000&auto=format&fit=crop" alt="Sequenziamento DNA">
+                    <div class="dt-info">
+                        <h3>03. Codice Genetico</h3>
+                        <p>Sequenziamento completo (WGS) del DNA</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dt-final-ui" id="dt-final-ui">
+                <span class="section-meta">Processo Completato</span>
+                <h2 class="title-section"><em>Replica Digitale</em> Attiva.</h2>
+                <p class="text-lead" style="margin-bottom: 2rem;">Il modello predittivo è ora caricato sui nostri server per l'analisi longitudinale.</p>
+                <a href="#prenota" class="btn-luxury">Protocollo Pazienti</a>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="units" id="unita">
+        <div class="container">
+            <span class="section-meta text-animate-3d">Aree Mediche</span>
+            <h2 class="title-section text-animate-3d">Dipartimenti <em>Diagnostici.</em></h2>
+            
+            <div class="units-editorial-flow">
+                
+                <div class="unit-row">
+                    <div class="unit-media-wrapper reveal-image">
+                        <img src="https://images.unsplash.com/photo-1551076805-e1869033e561?q=80&w=1200&auto=format&fit=crop" alt="Risonanza">
+                    </div>
+                    <div class="unit-text-wrapper">
+                        <span class="unit-title-num">Dipartimento I.</span>
+                        <h3 class="unit-title text-animate-3d">Neuro-Radiologia</h3>
+                        <p class="text-lead text-animate-3d">Localizzazione millimetrica delle anomalie vascolari e analisi volumetrica del tessuto cerebrale tramite protocolli MRI ad altissimo campo, in grado di identificare le placche neurodegenerative anni prima dei sintomi.</p>
+                        <a href="#" class="btn-link">Scarica Opuscolo Reparto (PDF)</a>
+                    </div>
+                </div>
+
+                <div class="unit-row">
+                    <div class="unit-media-wrapper reveal-image">
+                        <img src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?q=80&w=1200&auto=format&fit=crop" alt="Laboratorio">
+                    </div>
+                    <div class="unit-text-wrapper">
+                        <span class="unit-title-num">Dipartimento II.</span>
+                        <h3 class="unit-title text-animate-3d">Genetica Medica</h3>
+                        <p class="text-lead text-animate-3d">Sequenziamento dell'intero genoma (WGS) per individuare marcatori predittivi ereditari. Incrociamo i dati con il database genomico globale per una valutazione assoluta del rischio clinico del paziente.</p>
+                        <a href="#" class="btn-link">Scarica Referto d'Esempio (PDF)</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="tech-hardware" id="tecnologia">
+        <div class="container hw-container">
+            
+            <div class="hw-sticky-panel">
+                <span class="section-meta text-animate-3d">Dotazione Hardware</span>
+                <h2 class="title-section text-animate-3d">Piattaforme <em>Cliniche.</em></h2>
+                <div class="hw-viewport reveal-image-right">
+                    <img src="https://images.unsplash.com/photo-1581594693702-fbdc51b2763b?q=80&w=1000&auto=format&fit=crop" class="hw-slide-img active" id="hw-img-1" alt="Scanner 7T">
+                    <img src="https://images.unsplash.com/photo-1582719471384-894fbb16e074?q=80&w=1000&auto=format&fit=crop" class="hw-slide-img" id="hw-img-2" alt="Sequencer NGS">
+                    <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?q=80&w=1000&auto=format&fit=crop" class="hw-slide-img" id="hw-img-3" alt="PET Scan">
+                </div>
+            </div>
+
+            <div class="hw-scroller">
+                <div class="hw-block active-panel" data-panel="hw-img-1">
+                    <span class="section-meta">Siemens Healthineers</span>
+                    <h3 class="hw-block-title text-animate-3d">Risonanza<br>Magnetica <em>7T</em></h3>
+                    <p class="text-lead">Il primo scanner clinico 7 Tesla approvato. Permette la visualizzazione ad altissima risoluzione dei micro-vasi sanguigni, fondamentale per un'anamnesi strutturale profonda.</p>
+                    <div class="hw-spec-sheet">
+                        <div><span class="section-meta" style="margin:0;">Risoluzione</span><div class="spec-data">0.22 mm</div></div>
+                        <div><span class="section-meta" style="margin:0;">Spessore Slice</span><div class="spec-data">0.5 mm</div></div>
+                    </div>
+                </div>
+
+                <div class="hw-block" data-panel="hw-img-2">
+                    <span class="section-meta">Illumina Systems</span>
+                    <h3 class="hw-block-title text-animate-3d">Sequenziamento<br><em>NovaSeq</em></h3>
+                    <p class="text-lead">Analizzatore NGS di fascia altissima. Garantisce una profondità di lettura tale da azzerare virtualmente le anomalie statistiche nei report genetici.</p>
+                    <div class="hw-spec-sheet">
+                        <div><span class="section-meta" style="margin:0;">Accuratezza Q30</span><div class="spec-data">> 85%</div></div>
+                        <div><span class="section-meta" style="margin:0;">Copertura Media</span><div class="spec-data">150x</div></div>
+                    </div>
+                </div>
+
+                <div class="hw-block" data-panel="hw-img-3">
+                    <span class="section-meta">Biograph Vision</span>
+                    <h3 class="hw-block-title text-animate-3d">Scanner<br><em>PET/CT</em></h3>
+                    <p class="text-lead">Sistema total-body per l'imaging molecolare. Rileva lesioni primitive riducendo del 60% la durata complessiva dell'esame e la dose di tracciante somministrato.</p>
+                    <div class="hw-spec-sheet">
+                        <div><span class="section-meta" style="margin:0;">Risoluzione</span><div class="spec-data">3.2 mm</div></div>
+                        <div><span class="section-meta" style="margin:0;">Sensore</span><div class="spec-data">Optiso SiPM</div></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="board-section" id="comitato">
+        <div class="container board-header">
+            <span class="section-meta text-animate-3d">Direzione Medica</span>
+            <h2 class="title-section text-animate-3d">Il Comitato <em>Scientifico.</em></h2>
+        </div>
+        
+        <div class="board-pin-container">
+            <div class="board-horizontal-track" id="horizontal-scroll-wrapper">
+                
+                <div class="doctor-horizontal-card">
+                    <div class="doc-media">
+                        <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?q=80&w=800&auto=format&fit=crop" alt="Prof. Vance">
+                    </div>
+                    <div class="doc-bio-content">
+                        <h4 class="doc-name">Prof. Alan Vance</h4>
+                        <span class="doc-role">Direttore Sanitario</span>
+                        <p class="doc-text">Oltre 20 anni di esperienza in neurologia diagnostica presso centri universitari svizzeri. Supervisore finale di tutti i referti clinici consegnati.</p>
+                    </div>
+                </div>
+
+                <div class="doctor-horizontal-card">
+                    <div class="doc-media">
+                        <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=800&auto=format&fit=crop" alt="Dr.ssa Rostova">
+                    </div>
+                    <div class="doc-bio-content">
+                        <h4 class="doc-name">Dr.ssa E. Rostova</h4>
+                        <span class="doc-role">Capo Genomica Medica</span>
+                        <p class="doc-text">Specializzata nello studio dei marcatori poligenici e autrice dei protocolli di screening preventivo implementati dalla clinica.</p>
+                    </div>
+                </div>
+
+                <div class="doctor-horizontal-card">
+                    <div class="doc-media">
+                        <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=800&auto=format&fit=crop" alt="Dr. Reed">
+                    </div>
+                    <div class="doc-bio-content">
+                        <h4 class="doc-name">Dr. Julian Reed</h4>
+                        <span class="doc-role">Primario Radiologia</span>
+                        <p class="doc-text">Esperto nell'interpretazione di immagini ad alto campo magnetico (7T). Responsabile del rigoroso controllo qualità delle acquisizioni.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="booking" id="prenota">
+        <div class="container booking-split">
+            <div>
+                <span class="section-meta text-animate-3d">Patient Onboarding</span>
+                <h2 class="title-section text-animate-3d">Accesso <em>Pazienti.</em></h2>
+                
+                <div class="availability-badge">
+                    <div class="pulse-dot"></div>
+                    Disponibilità Triage Mensile: 4 Slot Liberi
+                </div>
+                
+                <p class="text-lead text-animate-3d" style="max-width: 450px;">I nostri protocolli diagnostici richiedono tempi macchina estesi. L'accettazione avviene solo tramite la compilazione di questo modulo anamnestico preliminare, valutato dal Direttore Sanitario entro 24 ore.</p>
+                
+                <a href="#" class="btn-link" style="margin-top:2rem;">Oppure accedi all'Area Referti &rarr;</a>
+            </div>
+            
+            <form onsubmit="event.preventDefault();" class="text-animate-3d">
+                <div class="field-container">
+                    <input type="text" class="field-input" placeholder="Nome e Cognome del Paziente" required>
+                    <div class="field-line"></div>
+                </div>
+                <div class="field-container">
+                    <input type="email" class="field-input" placeholder="Indirizzo Email per comunicazioni sicure" required>
+                    <div class="field-line"></div>
+                </div>
+                <div class="field-container">
+                    <input type="text" class="field-input" placeholder="Breve sintesi del quadro clinico / Obiettivo" required>
+                    <div class="field-line"></div>
+                </div>
+                <button type="submit" class="btn-submit-form">Sottoponi al Comitato Medico</button>
+            </form>
+        </div>
+    </section>
+
+    <footer id="main-footer">
+        <div class="container">
+            <div class="footer-matrix">
+                <div>
+                    <h2 class="title-section text-animate-3d-footer" style="font-size: 2.2rem; margin-bottom: 1rem;">Mind<em>Neuro</em></h2>
+                    <p class="text-lead" style="font-size: 0.95rem;">Istituto privato d'eccellenza per la diagnostica strutturale e la genomica predittiva del paziente.</p>
+                </div>
+                <div>
+                    <h4 class="section-meta text-animate-3d-footer">Risorse Utili</h4>
+                    <ul class="footer-list">
+                        <li><a href="#">Area Riservata Referti</a></li>
+                        <li><a href="#">Modulistica e Consensi</a></li>
+                        <li><a href="#">Tariffario Prestazioni</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="section-meta text-animate-3d-footer">Contatto Clinica</h4>
+                    <ul class="footer-list">
+                        <li style="color: var(--text-muted); font-size: 0.9rem;">Strada di Ricerca 10<br>6900 Lugano, Svizzera</li>
+                        <li><a href="mailto:segreteria@mindneuro.ch">segreteria@mindneuro.ch</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-row-bottom">
+                <p>&copy; 2026 MindNeuro SA. Swiss Medical Standards.</p>
+                <p>Referti protetti da crittografia end-to-end. Dati residenti in Svizzera.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="demo-banner">
+        <h4 class="demo-banner-title">Sito Vetrina</h4>
+        <p class="demo-banner-text">Questo è un ambiente dimostrativo creato per mostrare il design e le funzionalità.</p>
+        <a href="https://sito.luca-dordoni1.workers.dev/" target="_self" class="demo-banner-btn">TORNA AL SITO PRINCIPALE</a>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // ==========================================
+        // 1. GESTIONE THEME LIGHT / DARK MODE & MOBILE MENU
+        // ==========================================
+        const themeBtn = document.getElementById('theme-toggle');
+        
+        themeBtn.addEventListener('click', () => {
+            document.body.classList.toggle('light-mode');
+            const isLight = document.body.classList.contains('light-mode');
+            themeBtn.innerText = isLight ? 'Mode: Scuro' : 'Mode: Chiaro';
+            
+            if(window.heroShaderInstance) {
+                gsap.to(window.heroShaderInstance.material.uniforms.u_isLightMode, {
+                    value: isLight ? 1.0 : 0.0,
+                    duration: 1.2,
+                    ease: "power2.inOut"
+                });
+            }
+        });
+
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+        
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                if(window.innerWidth <= 768) {
+                    navLinks.classList.remove('active');
+                }
+            });
+        });
+
+        // ==========================================
+        // 2. UTILITA': SPLIT TEXT PER ANIMAZIONI 3D
+        // ==========================================
+        function wrapWordsFor3D(selector) {
+            document.querySelectorAll(selector).forEach(el => {
+                let text = el.innerHTML;
+                el.innerHTML = text.replace(/<[^>]*>|(\w+)/g, function(match, word) {
+                    if (word) return `<span class="reveal-word"><span>${word}</span></span>`;
+                    return match;
+                });
+            });
+        }
+        wrapWordsFor3D('.text-animate-3d');
+        wrapWordsFor3D('.text-animate-3d-footer');
+
+        // ==========================================
+        // 3. ANIMAZIONI 3D TESTO & CLIP PATH 
+        // ==========================================
+        document.querySelectorAll('.text-animate-3d').forEach(block => {
+            gsap.to(block.querySelectorAll('.reveal-word span'), {
+                y: "0%", rotateX: 0, opacity: 1, duration: 1.4, ease: "power4.out", stagger: 0.05,
+                scrollTrigger: { trigger: block, start: "top 90%" }
+            });
+        });
+
+        document.querySelectorAll('.text-animate-3d-footer').forEach(block => {
+            gsap.to(block.querySelectorAll('.reveal-word span'), {
+                y: "0%", rotateX: 0, opacity: 1, duration: 1.4, ease: "power4.out", stagger: 0.05,
+                scrollTrigger: { trigger: "#main-footer", start: "top 95%" }
+            });
+        });
+
+        document.querySelectorAll('.reveal-image').forEach(imgWrap => {
+            gsap.to(imgWrap, { clipPath: "inset(0% 0 0 0)", duration: 1.5, ease: "power3.inOut", scrollTrigger: { trigger: imgWrap, start: "top 85%" } });
+        });
+        document.querySelectorAll('.reveal-image-right').forEach(imgWrap => {
+            gsap.to(imgWrap, { clipPath: "inset(0 0% 0 0)", duration: 1.5, ease: "power3.inOut", scrollTrigger: { trigger: imgWrap, start: "top 85%" } });
+        });
+
+        // ==========================================
+        // 4. DIGITAL TWIN "DEEP DIVE" GSAP
+        // ==========================================
+        const diveTl = gsap.timeline({
+            scrollTrigger: { trigger: "#dt-pin", pin: true, scrub: 1, start: "top top", end: "+=350%" }
+        });
+
+        diveTl.to("#dt-initial-ui", { opacity: 0, y: -50, duration: 0.5 });
+
+        diveTl.to("#layer-1", { opacity: 1, duration: 0.5 }, 0);
+        diveTl.to("#layer-1 img", { scale: 5, filter: "blur(25px)", duration: 2 }, 0);
+        diveTl.to("#layer-1 .dt-info", { opacity: 0, x: -50, duration: 0.5 }, 1);
+        diveTl.to("#layer-1", { opacity: 0, duration: 0.5 }, 1.5);
+
+        diveTl.to("#layer-2", { opacity: 1, duration: 0.5 }, 1.5);
+        diveTl.from("#layer-2 img", { scale: 0.5, duration: 2 }, 1.5);
+        diveTl.to("#layer-2 img", { scale: 5, filter: "blur(25px)", duration: 2 }, 2);
+        diveTl.to("#layer-2 .dt-info", { opacity: 0, x: -50, duration: 0.5 }, 3);
+        diveTl.to("#layer-2", { opacity: 0, duration: 0.5 }, 3.5);
+
+        diveTl.to("#layer-3", { opacity: 1, duration: 0.5 }, 3.5);
+        diveTl.from("#layer-3 img", { scale: 0.5, duration: 1.5 }, 3.5);
+        
+        diveTl.to("#layer-3 .dt-info", { opacity: 0, duration: 0.2 }, 4.5);
+        diveTl.to("#layer-3 img", { filter: "brightness(0.5) blur(4px)", duration: 1 }, 4.5);
+        diveTl.to("#dt-final-ui", { autoAlpha: 1, y: -20, duration: 1 }, 5);
+
+        // ==========================================
+        // 5. SMOOTH SCROLL (LENIS)
+        // ==========================================
+        const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smooth: true });
+        lenis.on('scroll', ScrollTrigger.update);
+        gsap.ticker.add((time) => { lenis.raf(time * 1000); });
+        gsap.ticker.lagSmoothing(0);
+
+        // ==========================================
+        // 6. HERO WEBGL SHADER
+        // ==========================================
+        class ShaderHero {
+            constructor() {
+                this.container = document.getElementById('hero-canvas');
+                this.scene = new THREE.Scene();
+                this.camera = new THREE.OrthographicCamera(
+                    this.container.offsetWidth / -2, this.container.offsetWidth / 2,
+                    this.container.offsetHeight / 2, this.container.offsetHeight / -2, 1, 1000
+                );
+                this.camera.position.z = 1;
+                
+                this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+                this.renderer.setSize(this.container.offsetWidth, this.container.offsetHeight);
+                this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+                this.container.appendChild(this.renderer.domElement);
+
+                this.loader = new THREE.TextureLoader();
+                this.currentIndex = 0;
+                this.isTransitioning = false;
+                this.autoplayTimer = null;
+                
+                this.init();
+            }
+
+            init() {
+                const imgUrls = [
+                    'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=2000&auto=format&fit=crop',
+                    'https://images.unsplash.com/photo-1579684385127-1ef15d508118?q=80&w=2000&auto=format&fit=crop',
+                    'https://images.unsplash.com/photo-1581595220892-b0739db3ba8c?q=80&w=2000&auto=format&fit=crop'
+                ];
+                const dispUrl = 'https://raw.githubusercontent.com/robin-dela/hover-effect/master/images/heightMap.png';
+
+                const promises = imgUrls.map(url => new Promise(res => this.loader.load(url, res)));
+                promises.push(new Promise(res => this.loader.load(dispUrl, res)));
+
+                Promise.all(promises).then(loaded => {
+                    this.dispTexture = loaded.pop();
+                    this.textures = loaded;
+                    this.createMaterial();
+                    this.bindButtons();
+                    this.startTimer();
+                });
+
+                window.addEventListener('resize', this.onResize.bind(this));
+            }
+
+            createMaterial() {
+                this.material = new THREE.ShaderMaterial({
+                    uniforms: {
+                        progress: { type: "f", value: 0.0 },
+                        effectFactor: { type: "f", value: 1.2 },
+                        u_isLightMode: { type: "f", value: 0.0 },
+                        texture1: { type: "t", value: this.textures[0] },
+                        texture2: { type: "t", value: this.textures[1] },
+                        displacement: { type: "t", value: this.dispTexture }
+                    },
+                    vertexShader: `
+                        varying vec2 vUv;
+                        void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }
+                    `,
+                    fragmentShader: `
+                        varying vec2 vUv;
+                        uniform sampler2D texture1; uniform sampler2D texture2; uniform sampler2D displacement;
+                        uniform float progress; uniform float effectFactor;
+                        uniform float u_isLightMode;
+
+                        void main() {
+                            vec4 disp = texture2D(displacement, vUv);
+                            vec2 distortedPosition1 = vec2(vUv.x, vUv.y + progress * (disp.r * effectFactor));
+                            vec2 distortedPosition2 = vec2(vUv.x, vUv.y - (1.0 - progress) * (disp.r * effectFactor));
+                            
+                            vec4 t1 = texture2D(texture1, distortedPosition1);
+                            vec4 t2 = texture2D(texture2, distortedPosition2);
+                            
+                            vec4 finalColor = mix(t1, t2, progress);
+                            
+                            vec3 darkTint = vec3(0.02, 0.02, 0.03);
+                            vec3 lightTint = vec3(0.98, 0.97, 0.95);
+                            vec3 currentTint = mix(darkTint, lightTint, u_isLightMode);
+                            
+                            finalColor.rgb = mix(finalColor.rgb, currentTint, 0.35);
+                            gl_FragColor = finalColor;
+                        }
+                    `,
+                    transparent: true
+                });
+
+                this.mesh = new THREE.Mesh(new THREE.PlaneGeometry(this.container.offsetWidth, this.container.offsetHeight), this.material);
+                this.scene.add(this.mesh);
+                this.renderScene();
+            }
+
+            bindButtons() {
+                const pBtn = document.getElementById('slide-prev');
+                const nBtn = document.getElementById('slide-next');
+                this.ind = document.getElementById('slide-index');
+
+                pBtn.addEventListener('click', () => { this.changeSlide(-1); this.resetTimer(); });
+                nBtn.addEventListener('click', () => { this.changeSlide(1); this.resetTimer(); });
+            }
+
+            startTimer() { this.autoplayTimer = setInterval(() => this.changeSlide(1), 6000); }
+            resetTimer() { clearInterval(this.autoplayTimer); this.startTimer(); }
+
+            changeSlide(dir) {
+                if(this.isTransitioning) return;
+                this.isTransitioning = true;
+
+                let next = this.currentIndex + dir;
+                if(next < 0) next = this.textures.length - 1;
+                if(next >= this.textures.length) next = 0;
+
+                this.material.uniforms.texture2.value = this.textures[next];
+                this.ind.innerText = `0${next + 1} / 03`;
+
+                gsap.to(this.material.uniforms.progress, {
+                    value: 1, duration: 1.5, ease: "power2.inOut",
+                    onUpdate: () => this.renderScene(),
+                    onComplete: () => {
+                        this.currentIndex = next;
+                        this.material.uniforms.texture1.value = this.textures[this.currentIndex];
+                        this.material.uniforms.progress.value = 0;
+                        this.isTransitioning = false;
+                        this.renderScene();
+                    }
+                });
+            }
+
+            renderScene() { this.renderer.render(this.scene, this.camera); }
+
+            onResize() {
+                this.camera.left = this.container.offsetWidth / -2; this.camera.right = this.container.offsetWidth / 2;
+                this.camera.top = this.container.offsetHeight / 2; this.camera.bottom = this.container.offsetHeight / -2;
+                this.camera.updateProjectionMatrix();
+                this.renderer.setSize(this.container.offsetWidth, this.container.offsetHeight);
+                if(this.mesh) {
+                    this.mesh.geometry.dispose();
+                    this.mesh.geometry = new THREE.PlaneGeometry(this.container.offsetWidth, this.container.offsetHeight);
+                }
+                this.renderScene();
+            }
+        }
+        
+        window.heroShaderInstance = new ShaderHero();
+
+        // ==========================================
+        // 7. STICKY SCROLL MACCHINARI (Ora attivo anche da mobile)
+        // ==========================================
+        const blocks = document.querySelectorAll('.hw-block');
+        blocks.forEach(block => {
+            ScrollTrigger.create({
+                trigger: block,
+                start: "top 55%", end: "bottom 55%",
+                onToggle: self => {
+                    if(self.isActive) {
+                        blocks.forEach(b => b.classList.remove('active-panel'));
+                        block.classList.add('active-panel');
+                        const target = block.getAttribute('data-panel');
+                        document.querySelectorAll('.hw-slide-img').forEach(img => img.classList.remove('active'));
+                        document.getElementById(target).classList.add('active');
+                    }
+                }
+            });
+        });
+
+        // ==========================================
+        // 8. SCROLL ORIZZONTALE EQUIPE (Ora attivo anche da mobile)
+        // ==========================================
+        const track = document.getElementById('horizontal-scroll-wrapper');
+        const cards = document.querySelectorAll(".doctor-horizontal-card");
+        
+        gsap.to(cards, {
+            xPercent: -102 * (cards.length - 1),
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".board-section",
+                pin: true,
+                scrub: 1,
+                start: "center center", 
+                end: () => "+=" + track.offsetWidth
+            }
+        });
+        
+        // Refresh trigger layout post render
+        setTimeout(() => { ScrollTrigger.refresh(); }, 500);
+
+    </script>
+</body>
+</html>
