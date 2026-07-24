@@ -7,19 +7,20 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     
     <style>
         /* ==========================================
-           1. CORE & ELITE TOKENS
+           1. CORE, TOKENS & NOISE
            ========================================== */
         :root {
             --bg-primary: #F7F7F4;
             --bg-secondary: #EBEBE6;
-            --text-primary: #0F1011;
+            --text-primary: #0A0A0A;
             --text-secondary: #5A5A5A;
             --text-light: #F7F7F4;
             --accent: #8C7A61;
+            --border-hairline: rgba(10, 10, 10, 0.1);
             
             --font-serif: 'Cormorant Garamond', serif;
             --font-sans: 'Inter', sans-serif;
@@ -30,15 +31,19 @@
             --padding-x: clamp(1.5rem, 5vw, 6rem);
         }
 
-        * {
-            margin: 0; padding: 0; box-sizing: border-box;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
 
         body {
             background-color: var(--bg-primary); color: var(--text-primary);
             font-family: var(--font-sans); overflow-x: hidden; line-height: 1.4;
+        }
+
+        /* Effetto Grana Fotografica - DEPOTENZIATO PER ELEGANZA ASSOLUTA */
+        .cinematic-noise {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none; z-index: 9999; 
+            opacity: 0.05; /* Ridotto drasticamente per un feeling premium e non invasivo */
+            background: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
         }
 
         .container { width: 100%; max-width: 1700px; margin: 0 auto; padding: 0 var(--padding-x); }
@@ -49,10 +54,15 @@
         .label {
             font-family: var(--font-sans); font-size: 0.65rem;
             text-transform: uppercase; letter-spacing: 0.2em;
-            font-weight: 500; color: var(--text-secondary);
+            font-weight: 600; color: var(--text-secondary);
+        }
+        
+        .micro-text {
+            font-family: var(--font-sans); font-size: 0.55rem; text-transform: uppercase;
+            letter-spacing: 0.15em; color: var(--text-secondary); opacity: 0.7;
         }
 
-        /* TEXT REVEAL UTILITIES (Muscoli) */
+        /* TEXT REVEAL UTILITIES */
         .reveal-wrap { overflow: hidden; display: inline-block; vertical-align: top; }
         .reveal-inner {
             display: inline-block; transform: translate3d(0, 110%, 0) rotate(2deg);
@@ -63,122 +73,108 @@
         .reveal-active .reveal-inner { transform: translate3d(0, 0, 0) rotate(0); opacity: 1; }
 
         /* ==========================================
-           2. HEADER E MENU MOBILE
+           2. HEADER (Frosted Glass Leggibile)
            ========================================== */
         header {
             position: fixed; top: 0; left: 0; width: 100%;
-            padding: 2rem var(--padding-x);
+            padding: 1.5rem var(--padding-x);
             display: flex; justify-content: space-between; align-items: center;
-            z-index: 1000; mix-blend-mode: difference; color: #fff;
-            transition: transform 0.6s var(--ease-awwwards);
+            z-index: 1000; transition: transform 0.6s var(--ease-awwwards), background 0.4s;
+            background: rgba(247, 247, 244, 0.92);
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+            color: var(--text-primary);
         }
 
         .logo { font-family: var(--font-serif); font-size: 1.75rem; text-decoration: none; color: inherit; font-weight: 500; }
         
         .desktop-nav { display: none; gap: 3rem; }
         @media(min-width: 1024px) { .desktop-nav { display: flex; } }
-        .desktop-nav a { text-decoration: none; color: inherit; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em; transition: opacity 0.3s; }
-        .desktop-nav a:hover { opacity: 0.5; }
+        .desktop-nav a { 
+            text-decoration: none; color: inherit; font-size: 0.7rem; 
+            text-transform: uppercase; letter-spacing: 0.15em; font-weight: 600;
+            position: relative; overflow: hidden; display: inline-block; padding-bottom: 2px;
+        }
+        .desktop-nav a::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 1px;
+            background: var(--accent); transform: translateX(-100%); transition: transform 0.4s var(--ease-awwwards);
+        }
+        .desktop-nav a:hover::after { transform: translateX(0); }
 
-        /* Hamburger Icon */
-        .hamburger {
-            display: flex; flex-direction: column; gap: 6px;
-            cursor: pointer; z-index: 1001; padding: 10px;
-        }
-        .hamburger span {
-            display: block; width: 30px; height: 1px;
-            background-color: #fff; transition: 0.4s var(--ease-awwwards);
-        }
+        .hamburger { display: flex; flex-direction: column; gap: 5px; cursor: pointer; z-index: 1001; padding: 10px; }
+        .hamburger span { display: block; width: 30px; height: 1.5px; background-color: var(--text-primary); transition: 0.4s var(--ease-awwwards); }
+        .hamburger.active span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
         @media(min-width: 1024px) { .hamburger { display: none; } }
 
-        /* Mobile Menu */
         .mobile-menu {
             position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-            background: var(--text-primary); z-index: 999;
+            background: rgba(247, 247, 244, 0.98); backdrop-filter: blur(20px); z-index: 999;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             gap: 2.5rem; transform: translateY(-100%); transition: transform 0.8s var(--ease-awwwards);
         }
         .mobile-menu.active { transform: translateY(0); }
-        .mobile-menu a {
-            font-family: var(--font-serif); font-size: 3rem; text-decoration: none;
-            color: var(--text-light); transition: color 0.3s;
-        }
-        .mobile-menu a:hover { color: var(--accent); }
+        .mobile-menu a { font-family: var(--font-serif); font-size: 3rem; text-decoration: none; color: var(--text-primary); }
 
         /* ==========================================
            3. HERO FULL SCREEN
            ========================================== */
         .hero {
             position: relative; height: 100vh; width: 100%;
-            display: flex; align-items: flex-end; padding-bottom: 15vh;
+            display: flex; align-items: flex-end; padding-bottom: 12vh;
             background-color: #000; overflow: hidden;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
 
         .hero-bg {
             position: absolute; inset: 0; width: 100%; height: 100%;
-            object-fit: cover; opacity: 0.6;
-            transform: scale(1.1); animation: heroScale 25s linear infinite alternate;
+            object-fit: cover; opacity: 0.65;
+            transform: scale(1.08); animation: heroScale 30s linear infinite alternate;
         }
         @keyframes heroScale { 100% { transform: scale(1); } }
 
         .hero-overlay {
             position: absolute; inset: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0) 100%);
+            background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 40%, rgba(0,0,0,0.1) 100%);
         }
 
-        .hero-content {
-            position: relative; z-index: 2; color: var(--text-light);
-            width: 100%;
+        .hero-content { position: relative; z-index: 2; color: var(--text-light); width: 100%; }
+
+        .hero-meta {
+            display: flex; justify-content: space-between; align-items: flex-end;
+            margin-bottom: 2rem; border-bottom: 1px solid rgba(255,255,255,0.15);
+            padding-bottom: 1.5rem;
         }
 
         .hero-title {
-            font-size: clamp(4rem, 9vw, 9rem); line-height: 0.9;
-            margin-bottom: 2rem; margin-top: 1rem;
+            font-size: clamp(3.5rem, 8.5vw, 9rem); line-height: 0.9;
+            margin-bottom: 2rem;
         }
 
         .hero-text {
-            font-size: clamp(1rem, 1.2vw, 1.25rem); color: rgba(247,247,244,0.7); max-width: 500px;
+            font-size: clamp(1.1rem, 1.3vw, 1.35rem); color: rgba(247,247,244,0.8); max-width: 550px;
             line-height: 1.6; font-weight: 300;
         }
 
-        .scroll-indicator {
-            position: absolute; bottom: 3rem; right: var(--padding-x);
-            display: flex; flex-direction: column; align-items: center; gap: 1rem;
-            color: var(--text-light); z-index: 2; opacity: 0.6;
-        }
-        .scroll-line { width: 1px; height: 60px; background: rgba(255,255,255,0.2); position: relative; overflow: hidden; }
-        .scroll-line::after {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 50%;
-            background: #fff; animation: scrollDrop 2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
-        }
-        @keyframes scrollDrop { 0% { transform: translateY(-100%); } 100% { transform: translateY(200%); } }
-
         /* ==========================================
-           4. LA PROSPETTIVA (Stacco Visivo Pulito)
+           4. LA PROSPETTIVA
            ========================================== */
-        /* Rimosso lo sfondo immagine. Ora crea un contrasto "Solid Dark" elegante */
-        .philosophy {
-            position: relative; padding: 25vh 0;
-            background-color: var(--text-primary); color: var(--text-light);
-        }
-
-        .phil-grid {
-            display: grid; grid-template-columns: 1fr; gap: 4rem; position: relative; z-index: 2;
-        }
-        @media(min-width: 1024px) {
-            .phil-grid { grid-template-columns: 1fr 1fr; gap: 8vw; align-items: center; }
-        }
-
-        .phil-grid h2 { font-size: clamp(3rem, 6vw, 6rem); line-height: 0.95; }
+        .philosophy { position: relative; padding: 25vh 0; background-color: var(--text-primary); color: var(--text-light); }
+        .phil-grid { display: grid; grid-template-columns: 1fr; gap: 4rem; position: relative; z-index: 2; }
+        @media(min-width: 1024px) { .phil-grid { grid-template-columns: 1.2fr 0.8fr; gap: 8vw; align-items: center; } }
+        .phil-grid h2 { font-size: clamp(3rem, 5.5vw, 6rem); line-height: 0.95; }
         .phil-text p { font-size: clamp(1.2rem, 1.5vw, 1.5rem); font-weight: 300; color: rgba(247,247,244,0.7); }
 
         /* ==========================================
            5. GEMELLO DIGITALE
            ========================================== */
-        .digital-twin { padding: 0; position: relative; background: var(--bg-secondary); }
+        .digital-twin { padding: 0; position: relative; background: var(--bg-secondary); border-bottom: 1px solid var(--border-hairline); }
         .dt-container { display: grid; grid-template-columns: 1fr; }
         
-        .dt-media { position: relative; height: 60vh; overflow: hidden; }
+        .dt-media { position: sticky; top: 0; height: 50vh; overflow: hidden; z-index: 1; }
+        @media(min-width: 1024px) { .dt-media { height: 100vh; } }
+        
         .dt-media img {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             object-fit: cover; opacity: 0; transition: opacity 1s var(--ease-slow), transform 1.5s var(--ease-slow);
@@ -186,25 +182,20 @@
         }
         .dt-media img.active { opacity: 1; transform: scale(1); }
 
-        .dt-content { padding: 10vh var(--padding-x); }
-        .dt-step { padding: 8vh 0; border-bottom: 1px solid rgba(0,0,0,0.1); }
+        .dt-content { position: relative; z-index: 2; padding: 5vh var(--padding-x); background: var(--bg-secondary); }
+        @media(min-width: 1024px) { .dt-content { padding: 20vh 6vw; background: transparent; } }
+        
+        .dt-step { padding: 8vh 0; border-bottom: 1px solid var(--border-hairline); min-height: 60vh; display: flex; flex-direction: column; justify-content: center; }
+        @media(min-width: 1024px) { .dt-step { border: none; min-height: 80vh; } }
         .dt-step:last-child { border-bottom: none; }
-
-        @media (min-width: 1024px) {
-            .dt-container { grid-template-columns: 1.2fr 1fr; }
-            .dt-media { height: 100vh; position: sticky; top: 0; }
-            .dt-content { padding: 20vh 6vw; }
-            .dt-step { min-height: 80vh; border: none; display: flex; flex-direction: column; justify-content: center; }
-        }
-
         .dt-step h3 { font-size: clamp(2.5rem, 4vw, 4rem); margin: 1.5rem 0; line-height: 1; }
-        .dt-step p { font-size: 1.15rem; color: var(--text-secondary); max-width: 450px; font-weight: 300; }
+        .dt-step p { font-size: 1.15rem; color: var(--text-secondary); max-width: 450px; font-weight: 300; line-height: 1.6; }
 
         /* ==========================================
-           6. I PRINCIPI (Con Testi e Mobile-Optimized)
+           6. I PRINCIPI (Con Riquadro Glassmorphism Anti-AI)
            ========================================== */
         .principles {
-            padding: 20vh 0; background: var(--bg-primary);
+            padding: 15vh 0; background: var(--bg-primary);
             position: relative; overflow: hidden; transition: color 0.6s;
         }
         
@@ -212,113 +203,110 @@
         .principles-bgs img {
             position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
             opacity: 0; transition: opacity 0.8s var(--ease-slow), transform 1.2s var(--ease-slow);
-            transform: scale(1.1); filter: brightness(0.2) contrast(1.1);
+            transform: scale(1.1); filter: brightness(0.25) contrast(1.1);
         }
         .principles-bgs img.active { opacity: 1; transform: scale(1); }
 
         .principles-content { position: relative; z-index: 2; }
         
         .prin-item {
-            border-bottom: 1px solid rgba(0,0,0,0.1); padding: 4rem 0;
+            border-bottom: 1px solid var(--border-hairline); padding: 1.5rem 0;
             display: flex; flex-direction: column; justify-content: center;
-            cursor: pointer; transition: padding 0.5s var(--ease-awwwards);
+            transition: padding 0.5s var(--ease-awwwards), opacity 0.5s, border-color 0.5s;
             position: relative;
         }
-        .prin-item:first-of-type { border-top: 1px solid rgba(0,0,0,0.1); }
+        .prin-item:first-of-type { border-top: 1px solid var(--border-hairline); }
+
+        /* NUOVO RIQUADRO VETRATO PER GARANTIRE LEGGIBILITÀ */
+        .prin-box {
+            width: 100%;
+            padding: 2rem;
+            border-radius: 6px;
+            transition: all 0.5s var(--ease-awwwards);
+            border: 1px solid transparent;
+            border-left: 3px solid transparent;
+            background: transparent;
+        }
         
         .prin-header { display: flex; justify-content: space-between; align-items: flex-start; width: 100%; }
-        
-        .prin-item h3 {
-            font-size: clamp(2.2rem, 5vw, 5rem); transition: transform 0.5s var(--ease-awwwards), color 0.5s;
-            color: var(--text-primary); margin: 0; line-height: 1;
-        }
-        
-        /* Descrizione aggiunta per i pilastri */
-        .prin-desc {
-            font-size: clamp(1rem, 1.2vw, 1.25rem);
-            color: var(--text-secondary); margin-top: 1.5rem; max-width: 500px;
-            transition: color 0.5s, transform 0.5s var(--ease-awwwards);
-        }
-
+        .prin-item h3 { font-size: clamp(2.2rem, 5vw, 4rem); transition: color 0.5s; color: var(--text-primary); margin: 0; line-height: 1; }
+        .prin-desc { font-size: clamp(1.05rem, 1.2vw, 1.25rem); color: var(--text-secondary); margin-top: 1.5rem; max-width: 500px; transition: color 0.5s; }
         .prin-item span { font-family: var(--font-sans); font-size: 1rem; color: var(--text-secondary); transition: color 0.5s; }
 
-        /* Comportamento Desktop Hover */
+        /* Stato Attivo (Hover Desktop o Scroll Mobile) */
+        .principles.is-active-state { color: var(--text-light); }
+        .principles.is-active-state .prin-item { border-color: rgba(255,255,255,0.1); opacity: 0.5; }
+        .principles.is-active-state .prin-item.is-focused { opacity: 1; }
+        
+        /* Box Vetrato che si attiva garantendo lettura perfetta 100% */
+        .principles.is-active-state .prin-item.is-focused .prin-box {
+            background: rgba(10, 10, 12, 0.75);
+            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-left: 3px solid var(--accent);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+            transform: translateX(10px);
+        }
+
+        .principles.is-active-state .prin-item.is-focused h3 { color: #fff; }
+        .principles.is-active-state .prin-item.is-focused .prin-desc { color: rgba(255,255,255,0.85); }
+        .principles.is-active-state .prin-item.is-focused span { color: var(--accent); }
+
         @media (min-width: 1024px) {
-            .prin-item { flex-direction: row; align-items: center; }
+            .prin-box { flex-direction: row; align-items: center; display: flex; }
             .prin-header { width: auto; align-items: center; gap: 3rem; flex-grow: 1; }
             .prin-desc { margin-top: 0; margin-left: 0; }
             
-            .principles.is-hovering { color: var(--text-light); }
-            .principles.is-hovering .prin-item { border-color: rgba(255,255,255,0.2); }
-            .principles.is-hovering .prin-item h3 { color: rgba(255,255,255,0.4); transform: translateX(20px); }
-            .principles.is-hovering .prin-desc { color: rgba(255,255,255,0.4); transform: translateX(20px); }
-            .principles.is-hovering .prin-item span { color: rgba(255,255,255,0.4); }
-            
-            .principles.is-hovering .prin-item:hover h3 { color: #fff; transform: translateX(40px); }
-            .principles.is-hovering .prin-item:hover .prin-desc { color: rgba(255,255,255,0.8); transform: translateX(40px); }
-            .principles.is-hovering .prin-item:hover span { color: var(--accent); }
+            .principles.is-active-state .prin-item:hover { opacity: 1; }
+            .principles.is-active-state .prin-item:hover .prin-box {
+                background: rgba(10, 10, 12, 0.85);
+                transform: translateX(1.5vw);
+            }
         }
 
         /* ==========================================
            7. L'ELITE CLINICA
            ========================================== */
-        .team { padding: 20vh 0; background: var(--bg-secondary); }
-        .team-grid {
-            display: grid; grid-template-columns: 1fr; gap: 6rem; margin-top: 6rem;
-        }
-        
+        .team { padding: 20vh 0; background: var(--bg-secondary); position: relative; }
+        .team-grid { display: grid; grid-template-columns: 1fr; gap: 6rem; margin-top: 6rem; }
         @media (min-width: 768px) {
             .team-grid { grid-template-columns: repeat(3, 1fr); gap: 4vw; }
             .member:nth-child(2) { transform: translateY(10vh); }
             .member:nth-child(3) { transform: translateY(20vh); }
         }
 
-        .member-portrait {
-            width: 100%; aspect-ratio: 3/4; overflow: hidden; margin-bottom: 2rem;
-            position: relative;
-        }
-        
+        .member-portrait { width: 100%; aspect-ratio: 3/4; overflow: hidden; margin-bottom: 2rem; position: relative; }
         .img-reveal-mask {
             position: absolute; inset: 0; background: var(--bg-secondary); z-index: 2;
             transform-origin: bottom; transition: transform 1.2s var(--ease-awwwards);
         }
         .reveal-active .img-reveal-mask { transform: scaleY(0); }
-
-        .member-portrait img {
-            width: 100%; height: 100%; object-fit: cover;
-            filter: contrast(1.05) saturate(1.1) brightness(0.9);
-            transform: scale(1.1); transition: transform 1.5s var(--ease-awwwards);
-        }
+        .member-portrait img { width: 100%; height: 100%; object-fit: cover; filter: contrast(1.05) saturate(1.1) brightness(0.9); transform: scale(1.1); transition: transform 1.5s var(--ease-awwwards); }
         .member:hover .member-portrait img { transform: scale(1); }
-        
         .member h4 { font-family: var(--font-serif); font-size: 2.5rem; margin-bottom: 0.5rem; line-height: 1; }
-        .member p { font-family: var(--font-sans); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); }
+        .member p { font-family: var(--font-sans); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--accent); }
 
         /* ==========================================
-           8. L'ISTITUTO (Aura Tripla Animazione)
+           8. L'ISTITUTO
            ========================================== */
         .aura {
             position: relative; height: 110vh; min-height: 800px;
             display: flex; align-items: center; justify-content: center;
             overflow: hidden; clip-path: inset(0);
         }
-        
         .aura-bg {
             position: absolute; top: -10%; left: 0; width: 100%; height: 120%;
             background-image: url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1920&q=80');
             background-size: cover; background-position: center;
             z-index: 1; transform: translate3d(0,0,0);
         }
-
-        .aura-overlay { position: absolute; inset: 0; background: rgba(15, 16, 17, 0.5); z-index: 2; }
-
+        .aura-overlay { position: absolute; inset: 0; background: rgba(15, 16, 17, 0.4); z-index: 2; }
+        
         .aura-card {
             position: relative; z-index: 3; text-align: center;
-            background: rgba(247, 247, 244, 0.95);
-            padding: 6rem 4rem; max-width: 800px; width: 90%;
-            backdrop-filter: blur(20px);
-            animation: floatCard 8s ease-in-out infinite alternate;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+            background: rgba(247, 247, 244, 0.95); padding: 6rem 4rem; max-width: 800px; width: 90%;
+            backdrop-filter: blur(20px); animation: floatCard 8s ease-in-out infinite alternate;
+            border: 1px solid rgba(255,255,255,0.3);
         }
         @keyframes floatCard { 0% { transform: translateY(0px); } 100% { transform: translateY(-15px); } }
 
@@ -326,52 +314,42 @@
         .aura-card p { font-size: 1.25rem; color: var(--text-secondary); margin-bottom: 3.5rem; font-weight: 300; max-width: 500px; margin-left: auto; margin-right: auto;}
         
         .btn-elite {
-            display: inline-block; padding: 1.5rem 3.5rem;
-            background: var(--text-primary); color: var(--text-light);
-            text-decoration: none; font-size: 0.8rem; text-transform: uppercase;
-            letter-spacing: 0.2em; transition: all 0.4s var(--ease-awwwards);
-            position: relative; overflow: hidden;
+            display: inline-block; padding: 1.5rem 3.5rem; background: var(--text-primary); color: var(--text-light);
+            text-decoration: none; font-size: 0.75rem; text-transform: uppercase; font-weight: 600;
+            letter-spacing: 0.2em; transition: all 0.4s var(--ease-awwwards); position: relative; overflow: hidden;
         }
         .btn-elite::before {
             content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--accent); transform: scaleX(0); transform-origin: right;
-            transition: transform 0.6s var(--ease-awwwards); z-index: 1;
+            background: var(--accent); transform: scaleX(0); transform-origin: right; transition: transform 0.6s var(--ease-awwwards); z-index: 1;
         }
         .btn-elite:hover::before { transform: scaleX(1); transform-origin: left; }
         .btn-elite span { position: relative; z-index: 2; }
 
-        /* ==========================================
-           9. FOOTER & BADGE NOVUS
-           ========================================== */
-        footer { padding: 10vh 0 4vh 0; text-align: center; border-top: 1px solid rgba(0,0,0,0.1); }
-        
+        /* FOOTER E BADGE */
+        footer { padding: 10vh 0 6vh 0; text-align: center; border-top: 1px solid var(--border-hairline); }
         .novus-badge {
-            position: fixed; bottom: 2rem; right: 2rem;
-            background-color: var(--text-primary); color: var(--bg-primary);
-            padding: 1.25rem 1.5rem; text-decoration: none;
-            display: flex; flex-direction: column; gap: 0.25rem;
+            position: fixed; bottom: 2rem; right: 2rem; background-color: var(--text-primary); color: var(--bg-primary);
+            padding: 1.25rem 1.5rem; text-decoration: none; display: flex; flex-direction: column; gap: 0.25rem;
             z-index: 1000; transition: transform 0.4s;
         }
         .novus-badge:hover { transform: translateY(-5px); }
         .novus-badge span:first-child { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.2em; opacity: 0.6; }
         .novus-badge span:last-child { font-family: var(--font-serif); font-size: 1.1rem; }
-
-        @media (max-width: 768px) {
-            .novus-badge { bottom: 1rem; right: 1rem; padding: 1rem; }
-        }
+        @media (max-width: 768px) { .novus-badge { bottom: 1rem; right: 1rem; padding: 1rem; } }
     </style>
 </head>
 <body>
+
+    <div class="cinematic-noise"></div>
 
     <header id="main-header">
         <a href="#" class="logo">MindNeuro</a>
         <nav class="desktop-nav">
             <a href="#prospettiva">La Prospettiva</a>
             <a href="#metodo">Il Metodo</a>
-            <a href="#principi">I Principi</a>
+            <a href="#principi">I Pilastri</a>
             <a href="#istituto">L'Istituto</a>
         </nav>
-        
         <div class="hamburger" id="hamburger">
             <span></span><span></span><span></span>
         </div>
@@ -380,7 +358,7 @@
     <div class="mobile-menu" id="mobile-menu">
         <a href="#prospettiva" class="menu-link">La Prospettiva</a>
         <a href="#metodo" class="menu-link">Il Metodo</a>
-        <a href="#principi" class="menu-link">I Principi</a>
+        <a href="#principi" class="menu-link">I Pilastri</a>
         <a href="#istituto" class="menu-link">L'Istituto</a>
     </div>
 
@@ -395,7 +373,10 @@
             <div class="hero-overlay"></div>
             
             <div class="container hero-content">
-                <span class="label text-anim" style="color: rgba(255,255,255,0.6);">Struttura Clinica d'Elite</span>
+                <div class="hero-meta text-anim">
+                    <span class="label" style="color: rgba(255,255,255,0.6);">Struttura Clinica d'Elite</span>
+                    <span class="micro-text">Lat. 46.2044 N / Lon. 6.1432 E</span>
+                </div>
                 <h1 class="hero-title text-anim">
                     Architettura<br><em>predittiva</em><br>umana.
                 </h1>
@@ -403,17 +384,12 @@
                     Oltre l'orizzonte diagnostico tradizionale. Modelliamo il futuro biologico attraverso precisione assoluta e lusso relazionale.
                 </p>
             </div>
-
-            <div class="scroll-indicator">
-                <span class="label" style="font-size: 0.5rem;">Scroll</span>
-                <div class="scroll-line"></div>
-            </div>
         </section>
 
         <section id="prospettiva" class="philosophy">
             <div class="container phil-grid">
                 <div>
-                    <span class="label text-anim" style="color: rgba(255,255,255,0.4); margin-bottom: 2rem; display:block;">Manifesto</span>
+                    <span class="label text-anim" style="color: rgba(255,255,255,0.4); margin-bottom: 2rem; display:block;">Manifesto 01.</span>
                     <h2 class="text-anim">Non anticipiamo il sintomo.<br><em>Disegniamo l'equilibrio.</em></h2>
                 </div>
                 <div class="phil-text">
@@ -457,30 +433,39 @@
             </div>
 
             <div class="container principles-content">
-                <span class="label text-anim" style="display:block; margin-bottom: 4rem;">I Pilastri</span>
+                <div style="display:flex; justify-content:space-between; align-items:flex-end; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:1rem; margin-bottom: 2rem;">
+                    <span class="label text-anim">I Pilastri</span>
+                    <span class="micro-text text-anim">Data Protocol</span>
+                </div>
                 
                 <div class="prin-item" data-bg="bg-prin-1">
-                    <div class="prin-header">
-                        <h3 class="text-anim">Identità Terapeutica</h3>
-                        <span>01</span>
+                    <div class="prin-box">
+                        <div class="prin-header">
+                            <h3 class="text-anim">Identità Terapeutica</h3>
+                            <span>01</span>
+                        </div>
+                        <p class="prin-desc text-anim">Ogni percorso è un'opera unica, costruita sull'impronta molecolare dell'individuo. Abbracciamo il lusso della singolarità clinica.</p>
                     </div>
-                    <p class="prin-desc text-anim">Ogni percorso è un'opera unica, costruita sull'impronta molecolare dell'individuo. Abbracciamo il lusso della singolarità clinica.</p>
                 </div>
                 
                 <div class="prin-item" data-bg="bg-prin-2">
-                    <div class="prin-header">
-                        <h3 class="text-anim">Calibrazione Strutturale</h3>
-                        <span>02</span>
+                    <div class="prin-box">
+                        <div class="prin-header">
+                            <h3 class="text-anim">Calibrazione Strutturale</h3>
+                            <span>02</span>
+                        </div>
+                        <p class="prin-desc text-anim">Calibriamo il sistema nervoso e biologico per garantire una resilienza proattiva decenni prima del potenziale deterioramento.</p>
                     </div>
-                    <p class="prin-desc text-anim">Calibriamo il sistema nervoso e biologico per garantire una resilienza proattiva decenni prima del potenziale deterioramento.</p>
                 </div>
                 
                 <div class="prin-item" data-bg="bg-prin-3">
-                    <div class="prin-header">
-                        <h3 class="text-anim">L'Orizzonte Predittivo</h3>
-                        <span>03</span>
+                    <div class="prin-box">
+                        <div class="prin-header">
+                            <h3 class="text-anim">L'Orizzonte Predittivo</h3>
+                            <span>03</span>
+                        </div>
+                        <p class="prin-desc text-anim">Eleviamo lo standard di vita attraverso la convergenza di scienza dei dati d'avanguardia e neurologia d'élite.</p>
                     </div>
-                    <p class="prin-desc text-anim">Eleviamo lo standard di vita attraverso la convergenza di scienza dei dati d'avanguardia e neurologia d'élite.</p>
                 </div>
             </div>
         </section>
@@ -552,19 +537,14 @@
             const menuLinks = document.querySelectorAll('.menu-link');
 
             hamburger.addEventListener('click', () => {
-                const isActive = mobileMenu.classList.contains('active');
-                if (isActive) {
-                    mobileMenu.classList.remove('active');
-                    // Reset hamburger icon (animazioni opzionali)
-                    hamburger.style.opacity = '1';
-                } else {
-                    mobileMenu.classList.add('active');
-                }
+                mobileMenu.classList.toggle('active');
+                hamburger.classList.toggle('active');
             });
 
             menuLinks.forEach(link => {
                 link.addEventListener('click', () => {
                     mobileMenu.classList.remove('active');
+                    hamburger.classList.remove('active');
                 });
             });
 
@@ -587,77 +567,84 @@
                     });
                 });
             };
-
             splitText('.text-anim');
 
             // 3. INTERSECTION OBSERVER REVEAL
-            const revealOptions = { threshold: 0.2, rootMargin: "0px 0px -50px 0px" };
-            
             const revealObserver = new IntersectionObserver((entries, obs) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('reveal-active');
-                        
                         const inners = entry.target.querySelectorAll('.reveal-inner');
-                        inners.forEach((inner, i) => {
-                            inner.style.transitionDelay = `${i * 0.15}s`;
-                        });
-                        
+                        inners.forEach((inner, i) => { inner.style.transitionDelay = `${i * 0.15}s`; });
                         obs.unobserve(entry.target);
                     }
                 });
-            }, revealOptions);
+            }, { threshold: 0.2, rootMargin: "0px 0px -50px 0px" });
 
-            document.querySelectorAll('.text-anim, .block-reveal, .dt-step, .aura-card').forEach(el => {
+            document.querySelectorAll('.text-anim, .block-reveal, .aura-card').forEach(el => {
                 revealObserver.observe(el);
             });
 
-            // 4. I PRINCIPI - HOVER IMMERSIVO (Solo Desktop)
-            if (window.innerWidth >= 1024) {
-                const principlesSec = document.querySelector('.principles');
-                const prinItems = document.querySelectorAll('.prin-item');
-                const prinBgs = document.querySelectorAll('.principles-bgs img');
+            // 4. GEMELLO DIGITALE - LOGICA FUNZIONANTE ANCHE SU MOBILE
+            const dtSteps = document.querySelectorAll('.dt-step');
+            const dtImages = document.querySelectorAll('.dt-media img');
 
+            const dtObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const stepId = entry.target.getAttribute('data-step');
+                        dtImages.forEach(img => img.classList.remove('active'));
+                        document.getElementById(`img-step-${stepId}`).classList.add('active');
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            dtSteps.forEach(step => dtObserver.observe(step));
+
+            // 5. I PRINCIPI - LOGICA IBRIDA
+            const principlesSec = document.querySelector('.principles');
+            const prinItems = document.querySelectorAll('.prin-item');
+            const prinBgs = document.querySelectorAll('.principles-bgs img');
+
+            const activatePrin = (targetItem) => {
+                principlesSec.classList.add('is-active-state');
+                const targetBg = targetItem.getAttribute('data-bg');
+                
+                prinBgs.forEach(bg => bg.classList.remove('active'));
+                prinItems.forEach(i => i.classList.remove('is-focused'));
+                
+                document.getElementById(targetBg).classList.add('active');
+                targetItem.classList.add('is-focused');
+            };
+
+            // Desktop Hover
+            if (window.innerWidth >= 1024) {
                 prinItems.forEach(item => {
-                    item.addEventListener('mouseenter', () => {
-                        principlesSec.classList.add('is-hovering');
-                        const targetBg = item.getAttribute('data-bg');
-                        
-                        prinBgs.forEach(bg => bg.classList.remove('active'));
-                        document.getElementById(targetBg).classList.add('active');
-                    });
+                    item.addEventListener('mouseenter', () => activatePrin(item));
                 });
-
                 principlesSec.addEventListener('mouseleave', () => {
-                    principlesSec.classList.remove('is-hovering');
+                    principlesSec.classList.remove('is-active-state');
                     prinBgs.forEach(bg => bg.classList.remove('active'));
+                    prinItems.forEach(i => i.classList.remove('is-focused'));
                 });
-            }
-
-            // 5. GEMELLO DIGITALE - SYNC SCROLL (Desktop)
-            if (window.innerWidth >= 1024) {
-                const dtSteps = document.querySelectorAll('.dt-step');
-                const dtImages = document.querySelectorAll('.dt-media img');
-
-                const dtObserver = new IntersectionObserver((entries) => {
+            } 
+            // Mobile Scroll
+            else {
+                const prinMobileObserver = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
-                            const stepId = entry.target.getAttribute('data-step');
-                            dtImages.forEach(img => img.classList.remove('active'));
-                            document.getElementById(`img-step-${stepId}`).classList.add('active');
+                            activatePrin(entry.target);
                         }
                     });
-                }, { threshold: 0.5 });
-
-                dtSteps.forEach(step => dtObserver.observe(step));
+                }, { threshold: 0.6 });
+                
+                prinItems.forEach(item => prinMobileObserver.observe(item));
             }
 
-            // 6. PARALLAX EFFECT (L'Istituto)
+            // 6. PARALLAX EFFECT
             const auraBg = document.getElementById('aura-parallax');
-            
             window.addEventListener('scroll', () => {
                 const scrolled = window.pageYOffset;
-                
                 if(auraBg) {
                     const auraTop = document.getElementById('istituto').offsetTop;
                     if(scrolled > auraTop - window.innerHeight) {
@@ -667,7 +654,7 @@
                 }
             });
 
-            // 7. HEADER BLEND MODE FIX
+            // 7. HEADER HIDE/SHOW ON SCROLL
             let lastScroll = 0;
             const header = document.getElementById('main-header');
             window.addEventListener('scroll', () => {
@@ -679,7 +666,6 @@
                 }
                 lastScroll = currentScroll;
             });
-
         });
     </script>
 </body>
