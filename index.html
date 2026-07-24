@@ -11,7 +11,7 @@
     
     <style>
         /* ==========================================
-           1. CORE, TOKENS & NOISE
+           1. CORE & TOKENS
            ========================================== */
         :root {
             --bg-primary: #F7F7F4;
@@ -38,11 +38,10 @@
             font-family: var(--font-sans); overflow-x: hidden; line-height: 1.4;
         }
 
-        /* Effetto Grana Fotografica - DEPOTENZIATO PER ELEGANZA ASSOLUTA */
         .cinematic-noise {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             pointer-events: none; z-index: 9999; 
-            opacity: 0.05; /* Ridotto drasticamente per un feeling premium e non invasivo */
+            opacity: 0.05; 
             background: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
         }
 
@@ -73,7 +72,7 @@
         .reveal-active .reveal-inner { transform: translate3d(0, 0, 0) rotate(0); opacity: 1; }
 
         /* ==========================================
-           2. HEADER (Frosted Glass Leggibile)
+           2. HEADER E MENU MOBILE
            ========================================== */
         header {
             position: fixed; top: 0; left: 0; width: 100%;
@@ -126,36 +125,17 @@
             background-color: #000; overflow: hidden;
             border-bottom: 1px solid rgba(255,255,255,0.1);
         }
-
         .hero-bg {
             position: absolute; inset: 0; width: 100%; height: 100%;
             object-fit: cover; opacity: 0.65;
             transform: scale(1.08); animation: heroScale 30s linear infinite alternate;
         }
         @keyframes heroScale { 100% { transform: scale(1); } }
-
-        .hero-overlay {
-            position: absolute; inset: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 40%, rgba(0,0,0,0.1) 100%);
-        }
-
+        .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 40%, rgba(0,0,0,0.1) 100%); }
         .hero-content { position: relative; z-index: 2; color: var(--text-light); width: 100%; }
-
-        .hero-meta {
-            display: flex; justify-content: space-between; align-items: flex-end;
-            margin-bottom: 2rem; border-bottom: 1px solid rgba(255,255,255,0.15);
-            padding-bottom: 1.5rem;
-        }
-
-        .hero-title {
-            font-size: clamp(3.5rem, 8.5vw, 9rem); line-height: 0.9;
-            margin-bottom: 2rem;
-        }
-
-        .hero-text {
-            font-size: clamp(1.1rem, 1.3vw, 1.35rem); color: rgba(247,247,244,0.8); max-width: 550px;
-            line-height: 1.6; font-weight: 300;
-        }
+        .hero-meta { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2rem; border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 1.5rem; }
+        .hero-title { font-size: clamp(3.5rem, 8.5vw, 9rem); line-height: 0.9; margin-bottom: 2rem; }
+        .hero-text { font-size: clamp(1.1rem, 1.3vw, 1.35rem); color: rgba(247,247,244,0.8); max-width: 550px; line-height: 1.6; font-weight: 300; }
 
         /* ==========================================
            4. LA PROSPETTIVA
@@ -167,114 +147,85 @@
         .phil-text p { font-size: clamp(1.2rem, 1.5vw, 1.5rem); font-weight: 300; color: rgba(247,247,244,0.7); }
 
         /* ==========================================
-           5. GEMELLO DIGITALE
+           5. IL METODO (FASI) - NUOVO LAYOUT (No Glass, Leggibilità 100%)
            ========================================== */
-        .digital-twin { padding: 0; position: relative; background: var(--bg-secondary); border-bottom: 1px solid var(--border-hairline); }
-        .dt-container { display: grid; grid-template-columns: 1fr; }
+        .metodo-section { background: var(--text-primary); color: var(--text-light); border-top: 1px solid rgba(255,255,255,0.1); }
         
-        .dt-media { position: sticky; top: 0; height: 50vh; overflow: hidden; z-index: 1; }
-        @media(min-width: 1024px) { .dt-media { height: 100vh; } }
-        
-        .dt-media img {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            object-fit: cover; opacity: 0; transition: opacity 1s var(--ease-slow), transform 1.5s var(--ease-slow);
-            transform: scale(1.05); filter: contrast(1.1);
-        }
-        .dt-media img.active { opacity: 1; transform: scale(1); }
+        /* Layout Mobile: Editoriale, a cascata */
+        .metodo-step-mobile { padding: 8vh 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .metodo-step-mobile:last-child { border-bottom: none; }
+        .metodo-img-mobile { width: 100%; height: 50vh; object-fit: cover; margin-bottom: 2rem; filter: brightness(0.8); }
+        .metodo-text-mobile h3 { font-size: clamp(2.5rem, 8vw, 3.5rem); margin: 1rem 0; line-height: 1; color: #fff; }
+        .metodo-text-mobile p { font-size: 1.15rem; color: rgba(255,255,255,0.7); line-height: 1.6; }
 
-        .dt-content { position: relative; z-index: 2; padding: 5vh var(--padding-x); background: var(--bg-secondary); }
-        @media(min-width: 1024px) { .dt-content { padding: 20vh 6vw; background: transparent; } }
+        /* Layout PC: Split Screen (Sinistra Testo Scorre, Destra Immagine Fissa) */
+        .metodo-desktop-container { display: none; }
         
-        .dt-step { padding: 8vh 0; border-bottom: 1px solid var(--border-hairline); min-height: 60vh; display: flex; flex-direction: column; justify-content: center; }
-        @media(min-width: 1024px) { .dt-step { border: none; min-height: 80vh; } }
-        .dt-step:last-child { border-bottom: none; }
-        .dt-step h3 { font-size: clamp(2.5rem, 4vw, 4rem); margin: 1.5rem 0; line-height: 1; }
-        .dt-step p { font-size: 1.15rem; color: var(--text-secondary); max-width: 450px; font-weight: 300; line-height: 1.6; }
+        @media(min-width: 1024px) {
+            .metodo-mobile-container { display: none; }
+            .metodo-desktop-container { display: flex; width: 100%; position: relative; }
+            
+            .metodo-col-text { width: 50%; padding-right: 5vw; }
+            .metodo-col-media { width: 50%; position: sticky; top: 0; height: 100vh; overflow: hidden; }
+            
+            .metodo-desktop-img {
+                position: absolute; inset: 0; width: 100%; height: 100%;
+                object-fit: cover; opacity: 0; transition: opacity 1s var(--ease-slow), transform 1.5s var(--ease-slow);
+                transform: scale(1.05); filter: brightness(0.7);
+            }
+            .metodo-desktop-img.active { opacity: 1; transform: scale(1); }
+            
+            .metodo-step-desktop { 
+                height: 100vh; display: flex; flex-direction: column; justify-content: center;
+                padding-left: var(--padding-x); opacity: 0.3; transition: opacity 0.6s var(--ease-awwwards);
+            }
+            .metodo-step-desktop.is-active { opacity: 1; }
+            
+            .metodo-step-desktop h3 { font-size: 4rem; margin: 1.5rem 0; line-height: 1; color: #fff; }
+            .metodo-step-desktop p { font-size: 1.25rem; color: rgba(255,255,255,0.7); max-width: 450px; line-height: 1.6; }
+        }
 
         /* ==========================================
-           6. I PRINCIPI (Con Riquadro Glassmorphism Anti-AI)
+           6. I PILASTRI - ACCORDION FOTOGRAFICO
            ========================================== */
-        .principles {
-            padding: 15vh 0; background: var(--bg-primary);
-            position: relative; overflow: hidden; transition: color 0.6s;
-        }
+        .pilastri-section { padding: 15vh 0; background: var(--bg-primary); }
         
-        .principles-bgs { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
-        .principles-bgs img {
-            position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
-            opacity: 0; transition: opacity 0.8s var(--ease-slow), transform 1.2s var(--ease-slow);
-            transform: scale(1.1); filter: brightness(0.25) contrast(1.1);
-        }
-        .principles-bgs img.active { opacity: 1; transform: scale(1); }
-
-        .principles-content { position: relative; z-index: 2; }
+        .pilastri-header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px solid var(--border-hairline); padding-bottom: 1rem; margin-bottom: 5vh; }
         
-        .prin-item {
-            border-bottom: 1px solid var(--border-hairline); padding: 1.5rem 0;
-            display: flex; flex-direction: column; justify-content: center;
-            transition: padding 0.5s var(--ease-awwwards), opacity 0.5s, border-color 0.5s;
-            position: relative;
-        }
-        .prin-item:first-of-type { border-top: 1px solid var(--border-hairline); }
-
-        /* NUOVO RIQUADRO VETRATO PER GARANTIRE LEGGIBILITÀ */
-        .prin-box {
-            width: 100%;
-            padding: 2rem;
-            border-radius: 6px;
-            transition: all 0.5s var(--ease-awwwards);
-            border: 1px solid transparent;
-            border-left: 3px solid transparent;
-            background: transparent;
-        }
+        .pilastro-row { border-bottom: 1px solid var(--border-hairline); cursor: pointer; padding: 2rem 0; }
         
-        .prin-header { display: flex; justify-content: space-between; align-items: flex-start; width: 100%; }
-        .prin-item h3 { font-size: clamp(2.2rem, 5vw, 4rem); transition: color 0.5s; color: var(--text-primary); margin: 0; line-height: 1; }
-        .prin-desc { font-size: clamp(1.05rem, 1.2vw, 1.25rem); color: var(--text-secondary); margin-top: 1.5rem; max-width: 500px; transition: color 0.5s; }
-        .prin-item span { font-family: var(--font-sans); font-size: 1rem; color: var(--text-secondary); transition: color 0.5s; }
-
-        /* Stato Attivo (Hover Desktop o Scroll Mobile) */
-        .principles.is-active-state { color: var(--text-light); }
-        .principles.is-active-state .prin-item { border-color: rgba(255,255,255,0.1); opacity: 0.5; }
-        .principles.is-active-state .prin-item.is-focused { opacity: 1; }
+        .pilastro-title-area { display: flex; justify-content: space-between; align-items: center; transition: color 0.4s; }
+        .pilastro-title-area h3 { font-size: clamp(2rem, 5vw, 4rem); color: var(--text-primary); margin: 0; }
+        .pilastro-title-area span { font-family: var(--font-sans); font-size: 1.2rem; color: var(--text-secondary); }
         
-        /* Box Vetrato che si attiva garantendo lettura perfetta 100% */
-        .principles.is-active-state .prin-item.is-focused .prin-box {
-            background: rgba(10, 10, 12, 0.75);
-            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-left: 3px solid var(--accent);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
-            transform: translateX(10px);
+        /* Contenitore espandibile */
+        .pilastro-content {
+            display: grid; grid-template-rows: 0fr; opacity: 0;
+            transition: grid-template-rows 0.6s var(--ease-awwwards), opacity 0.6s var(--ease-awwwards);
         }
+        .pilastro-inner { overflow: hidden; }
+        
+        /* Layout interno del contenuto svelato */
+        .pilastro-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; padding-top: 2rem; }
+        @media(min-width: 768px) { .pilastro-grid { grid-template-columns: 1fr 1fr; align-items: center; gap: 4vw; } }
+        
+        .pilastro-grid p { font-size: clamp(1.1rem, 1.2vw, 1.25rem); color: var(--text-secondary); line-height: 1.6; }
+        .pilastro-grid img { width: 100%; height: 350px; object-fit: cover; filter: brightness(0.9); }
 
-        .principles.is-active-state .prin-item.is-focused h3 { color: #fff; }
-        .principles.is-active-state .prin-item.is-focused .prin-desc { color: rgba(255,255,255,0.85); }
-        .principles.is-active-state .prin-item.is-focused span { color: var(--accent); }
-
-        @media (min-width: 1024px) {
-            .prin-box { flex-direction: row; align-items: center; display: flex; }
-            .prin-header { width: auto; align-items: center; gap: 3rem; flex-grow: 1; }
-            .prin-desc { margin-top: 0; margin-left: 0; }
-            
-            .principles.is-active-state .prin-item:hover { opacity: 1; }
-            .principles.is-active-state .prin-item:hover .prin-box {
-                background: rgba(10, 10, 12, 0.85);
-                transform: translateX(1.5vw);
-            }
-        }
+        /* Stati Attivi (Hover Desktop / Scroll Mobile) */
+        .pilastro-row.is-expanded .pilastro-content { grid-template-rows: 1fr; opacity: 1; }
+        .pilastro-row.is-expanded .pilastro-title-area h3 { color: var(--accent); }
 
         /* ==========================================
            7. L'ELITE CLINICA
            ========================================== */
-        .team { padding: 20vh 0; background: var(--bg-secondary); position: relative; }
+        .team { padding: 20vh 0; background: var(--bg-secondary); position: relative; z-index: 3;}
         .team-grid { display: grid; grid-template-columns: 1fr; gap: 6rem; margin-top: 6rem; }
         @media (min-width: 768px) {
             .team-grid { grid-template-columns: repeat(3, 1fr); gap: 4vw; }
             .member:nth-child(2) { transform: translateY(10vh); }
             .member:nth-child(3) { transform: translateY(20vh); }
         }
-
         .member-portrait { width: 100%; aspect-ratio: 3/4; overflow: hidden; margin-bottom: 2rem; position: relative; }
         .img-reveal-mask {
             position: absolute; inset: 0; background: var(--bg-secondary); z-index: 2;
@@ -290,7 +241,7 @@
            8. L'ISTITUTO
            ========================================== */
         .aura {
-            position: relative; height: 110vh; min-height: 800px;
+            position: relative; height: 110vh; min-height: 800px; z-index: 3;
             display: flex; align-items: center; justify-content: center;
             overflow: hidden; clip-path: inset(0);
         }
@@ -309,7 +260,6 @@
             border: 1px solid rgba(255,255,255,0.3);
         }
         @keyframes floatCard { 0% { transform: translateY(0px); } 100% { transform: translateY(-15px); } }
-
         .aura-card h2 { font-size: clamp(3rem, 5vw, 5.5rem); margin-bottom: 1.5rem; line-height: 0.9; color: var(--text-primary); }
         .aura-card p { font-size: 1.25rem; color: var(--text-secondary); margin-bottom: 3.5rem; font-weight: 300; max-width: 500px; margin-left: auto; margin-right: auto;}
         
@@ -325,17 +275,8 @@
         .btn-elite:hover::before { transform: scaleX(1); transform-origin: left; }
         .btn-elite span { position: relative; z-index: 2; }
 
-        /* FOOTER E BADGE */
-        footer { padding: 10vh 0 6vh 0; text-align: center; border-top: 1px solid var(--border-hairline); }
-        .novus-badge {
-            position: fixed; bottom: 2rem; right: 2rem; background-color: var(--text-primary); color: var(--bg-primary);
-            padding: 1.25rem 1.5rem; text-decoration: none; display: flex; flex-direction: column; gap: 0.25rem;
-            z-index: 1000; transition: transform 0.4s;
-        }
-        .novus-badge:hover { transform: translateY(-5px); }
-        .novus-badge span:first-child { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.2em; opacity: 0.6; }
-        .novus-badge span:last-child { font-family: var(--font-serif); font-size: 1.1rem; }
-        @media (max-width: 768px) { .novus-badge { bottom: 1rem; right: 1rem; padding: 1rem; } }
+        /* FOOTER */
+        footer { padding: 10vh 0 6vh 0; text-align: center; border-top: 1px solid var(--border-hairline); position: relative; z-index: 3; background: var(--bg-primary); }
     </style>
 </head>
 <body>
@@ -361,11 +302,6 @@
         <a href="#principi" class="menu-link">I Pilastri</a>
         <a href="#istituto" class="menu-link">L'Istituto</a>
     </div>
-
-    <a href="#" class="novus-badge">
-        <span>Concept Project</span>
-        <span>Novus Ateliers</span>
-    </a>
 
     <main>
         <section class="hero">
@@ -398,75 +334,113 @@
             </div>
         </section>
 
-        <section id="metodo" class="digital-twin">
-            <div class="dt-container">
-                <div class="dt-media">
-                    <img id="img-step-1" src="https://images.unsplash.com/photo-1530497610245-94d3c16cda28?auto=format&fit=crop&w=1000&q=80" class="active" alt="Dati">
-                    <img id="img-step-2" src="https://images.unsplash.com/photo-1582719471384-894fbb16e074?auto=format&fit=crop&w=1000&q=80" alt="Architettura">
-                    <img id="img-step-3" src="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=1000&q=80" alt="Futuro">
-                </div>
-                <div class="dt-content">
-                    <div class="dt-step active-text" data-step="1">
-                        <span class="label text-anim">Fase I</span>
+        <section id="metodo" class="metodo-section">
+            
+            <div class="container metodo-mobile-container">
+                <div class="metodo-step-mobile">
+                    <img src="https://images.unsplash.com/photo-1530497610245-94d3c16cda28?auto=format&fit=crop&w=1000&q=80" class="metodo-step-mobile-img reveal-block" alt="Fase 1">
+                    <div class="metodo-text-mobile">
+                        <span class="label text-anim" style="color: var(--accent);">Fase I</span>
                         <h3 class="text-anim">L'Osservazione</h3>
                         <p class="text-anim">Acquisizione millimetrica del fenotipo. Nessuna invasività, pura lettura della mappa biologica attraverso strumenti di calibrazione assoluta.</p>
                     </div>
-                    <div class="dt-step" data-step="2">
-                        <span class="label text-anim">Fase II</span>
+                </div>
+                <div class="metodo-step-mobile">
+                    <img src="https://images.unsplash.com/photo-1582719471384-894fbb16e074?auto=format&fit=crop&w=1000&q=80" class="metodo-step-mobile-img reveal-block" alt="Fase 2">
+                    <div class="metodo-text-mobile">
+                        <span class="label text-anim" style="color: var(--accent);">Fase II</span>
                         <h3 class="text-anim">La Modellazione</h3>
                         <p class="text-anim">Creazione del gemello digitale. Trasformiamo le asimmetrie biologiche in un modello architettonico perfetto e prevedibile.</p>
                     </div>
-                    <div class="dt-step" data-step="3">
-                        <span class="label text-anim">Fase III</span>
+                </div>
+                <div class="metodo-step-mobile" style="padding-bottom: 15vh;">
+                    <img src="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=1000&q=80" class="metodo-step-mobile-img reveal-block" alt="Fase 3">
+                    <div class="metodo-text-mobile">
+                        <span class="label text-anim" style="color: var(--accent);">Fase III</span>
                         <h3 class="text-anim">L'Anticipazione</h3>
                         <p class="text-anim">L'intervento avviene nel futuro. Disegniamo traiettorie cliniche affinché il potenziale declino non trovi mai la sua manifestazione fisica.</p>
                     </div>
                 </div>
             </div>
+
+            <div class="metodo-desktop-container">
+                <div class="metodo-col-text">
+                    <div class="metodo-step-desktop active-step" data-step="met-img-1">
+                        <span class="label" style="color: var(--accent);">Fase I</span>
+                        <h3>L'Osservazione</h3>
+                        <p>Acquisizione millimetrica del fenotipo. Nessuna invasività, pura lettura della mappa biologica attraverso strumenti di calibrazione assoluta.</p>
+                    </div>
+                    <div class="metodo-step-desktop" data-step="met-img-2">
+                        <span class="label" style="color: var(--accent);">Fase II</span>
+                        <h3>La Modellazione</h3>
+                        <p>Creazione del gemello digitale. Trasformiamo le asimmetrie biologiche in un modello architettonico perfetto e prevedibile.</p>
+                    </div>
+                    <div class="metodo-step-desktop" data-step="met-img-3">
+                        <span class="label" style="color: var(--accent);">Fase III</span>
+                        <h3>L'Anticipazione</h3>
+                        <p>L'intervento avviene nel futuro. Disegniamo traiettorie cliniche affinché il potenziale declino non trovi mai la sua manifestazione fisica.</p>
+                    </div>
+                </div>
+                <div class="metodo-col-media">
+                    <img id="met-img-1" src="https://images.unsplash.com/photo-1530497610245-94d3c16cda28?auto=format&fit=crop&w=1000&q=80" class="metodo-desktop-img active" alt="Fase 1">
+                    <img id="met-img-2" src="https://images.unsplash.com/photo-1582719471384-894fbb16e074?auto=format&fit=crop&w=1000&q=80" class="metodo-desktop-img" alt="Fase 2">
+                    <img id="met-img-3" src="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=1000&q=80" class="metodo-desktop-img" alt="Fase 3">
+                </div>
+            </div>
         </section>
 
-        <section id="principi" class="principles">
-            <div class="principles-bgs">
-                <img src="https://images.unsplash.com/photo-1507413245164-6160d8298b31?auto=format&fit=crop&w=1920&q=80" id="bg-prin-1" alt="Bg 1">
-                <img src="https://images.unsplash.com/photo-1493612276216-ee3925520721?auto=format&fit=crop&w=1920&q=80" id="bg-prin-2" alt="Bg 2">
-                <img src="https://images.unsplash.com/photo-1559757175-5700dde675bc?auto=format&fit=crop&w=1920&q=80" id="bg-prin-3" alt="Bg 3">
-            </div>
-
-            <div class="container principles-content">
-                <div style="display:flex; justify-content:space-between; align-items:flex-end; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:1rem; margin-bottom: 2rem;">
+        <section id="principi" class="pilastri-section">
+            <div class="container">
+                <div class="pilastri-header">
                     <span class="label text-anim">I Pilastri</span>
                     <span class="micro-text text-anim">Data Protocol</span>
                 </div>
                 
-                <div class="prin-item" data-bg="bg-prin-1">
-                    <div class="prin-box">
-                        <div class="prin-header">
-                            <h3 class="text-anim">Identità Terapeutica</h3>
-                            <span>01</span>
+                <div class="pilastro-row">
+                    <div class="pilastro-title-area">
+                        <h3 class="text-anim">Identità Terapeutica</h3>
+                        <span class="text-anim">01</span>
+                    </div>
+                    <div class="pilastro-content">
+                        <div class="pilastro-inner">
+                            <div class="pilastro-grid">
+                                <p>Ogni percorso è un'opera unica, costruita sull'impronta molecolare dell'individuo. Abbracciamo il lusso della singolarità clinica rifiutando qualsiasi protocollo standardizzato.</p>
+                                <img src="https://images.unsplash.com/photo-1507413245164-6160d8298b31?auto=format&fit=crop&w=1000&q=80" alt="Pilastro 1">
+                            </div>
                         </div>
-                        <p class="prin-desc text-anim">Ogni percorso è un'opera unica, costruita sull'impronta molecolare dell'individuo. Abbracciamo il lusso della singolarità clinica.</p>
                     </div>
                 </div>
-                
-                <div class="prin-item" data-bg="bg-prin-2">
-                    <div class="prin-box">
-                        <div class="prin-header">
-                            <h3 class="text-anim">Calibrazione Strutturale</h3>
-                            <span>02</span>
+
+                <div class="pilastro-row">
+                    <div class="pilastro-title-area">
+                        <h3 class="text-anim">Calibrazione Strutturale</h3>
+                        <span class="text-anim">02</span>
+                    </div>
+                    <div class="pilastro-content">
+                        <div class="pilastro-inner">
+                            <div class="pilastro-grid">
+                                <p>Calibriamo il sistema nervoso e biologico per garantire una resilienza proattiva decenni prima del potenziale deterioramento. L'equilibrio è architettura in movimento.</p>
+                                <img src="https://images.unsplash.com/photo-1493612276216-ee3925520721?auto=format&fit=crop&w=1000&q=80" alt="Pilastro 2">
+                            </div>
                         </div>
-                        <p class="prin-desc text-anim">Calibriamo il sistema nervoso e biologico per garantire una resilienza proattiva decenni prima del potenziale deterioramento.</p>
                     </div>
                 </div>
-                
-                <div class="prin-item" data-bg="bg-prin-3">
-                    <div class="prin-box">
-                        <div class="prin-header">
-                            <h3 class="text-anim">L'Orizzonte Predittivo</h3>
-                            <span>03</span>
+
+                <div class="pilastro-row">
+                    <div class="pilastro-title-area">
+                        <h3 class="text-anim">L'Orizzonte Predittivo</h3>
+                        <span class="text-anim">03</span>
+                    </div>
+                    <div class="pilastro-content">
+                        <div class="pilastro-inner">
+                            <div class="pilastro-grid">
+                                <p>Eleviamo lo standard di vita attraverso la convergenza di scienza dei dati d'avanguardia e neurologia d'élite. Prevedere significa prendere il controllo del tempo.</p>
+                                <img src="https://images.unsplash.com/photo-1559757175-5700dde675bc?auto=format&fit=crop&w=1000&q=80" alt="Pilastro 3">
+                            </div>
                         </div>
-                        <p class="prin-desc text-anim">Eleviamo lo standard di vita attraverso la convergenza di scienza dei dati d'avanguardia e neurologia d'élite.</p>
                     </div>
                 </div>
+
             </div>
         </section>
 
@@ -531,7 +505,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
 
-            // 1. MENU MOBILE E HAMBURGER
+            // 1. MENU MOBILE
             const hamburger = document.getElementById('hamburger');
             const mobileMenu = document.getElementById('mobile-menu');
             const menuLinks = document.querySelectorAll('.menu-link');
@@ -540,7 +514,6 @@
                 mobileMenu.classList.toggle('active');
                 hamburger.classList.toggle('active');
             });
-
             menuLinks.forEach(link => {
                 link.addEventListener('click', () => {
                     mobileMenu.classList.remove('active');
@@ -548,7 +521,7 @@
                 });
             });
 
-            // 2. MOTORE DI TEXT SPLITTING
+            // 2. TEXT SPLITTING (Animazione Testi)
             const splitText = (selector) => {
                 document.querySelectorAll(selector).forEach(el => {
                     const text = el.innerHTML;
@@ -576,69 +549,69 @@
                         entry.target.classList.add('reveal-active');
                         const inners = entry.target.querySelectorAll('.reveal-inner');
                         inners.forEach((inner, i) => { inner.style.transitionDelay = `${i * 0.15}s`; });
+                        
+                        // Per le immagini classiche
+                        if(entry.target.classList.contains('reveal-block')) {
+                            entry.target.style.opacity = 1;
+                        }
                         obs.unobserve(entry.target);
                     }
                 });
             }, { threshold: 0.2, rootMargin: "0px 0px -50px 0px" });
 
-            document.querySelectorAll('.text-anim, .block-reveal, .aura-card').forEach(el => {
+            document.querySelectorAll('.text-anim, .block-reveal, .aura-card, .reveal-block').forEach(el => {
+                // Pre-set per reveal block
+                if(el.classList.contains('reveal-block')) el.style.opacity = 0;
+                el.style.transition = "opacity 1s ease";
                 revealObserver.observe(el);
             });
 
-            // 4. GEMELLO DIGITALE - LOGICA FUNZIONANTE ANCHE SU MOBILE
-            const dtSteps = document.querySelectorAll('.dt-step');
-            const dtImages = document.querySelectorAll('.dt-media img');
-
-            const dtObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const stepId = entry.target.getAttribute('data-step');
-                        dtImages.forEach(img => img.classList.remove('active'));
-                        document.getElementById(`img-step-${stepId}`).classList.add('active');
-                    }
-                });
-            }, { threshold: 0.5 });
-
-            dtSteps.forEach(step => dtObserver.observe(step));
-
-            // 5. I PRINCIPI - LOGICA IBRIDA
-            const principlesSec = document.querySelector('.principles');
-            const prinItems = document.querySelectorAll('.prin-item');
-            const prinBgs = document.querySelectorAll('.principles-bgs img');
-
-            const activatePrin = (targetItem) => {
-                principlesSec.classList.add('is-active-state');
-                const targetBg = targetItem.getAttribute('data-bg');
-                
-                prinBgs.forEach(bg => bg.classList.remove('active'));
-                prinItems.forEach(i => i.classList.remove('is-focused'));
-                
-                document.getElementById(targetBg).classList.add('active');
-                targetItem.classList.add('is-focused');
-            };
-
-            // Desktop Hover
+            // 4. METODO FASI - SYNC SCROLL (Solo per Desktop)
             if (window.innerWidth >= 1024) {
-                prinItems.forEach(item => {
-                    item.addEventListener('mouseenter', () => activatePrin(item));
-                });
-                principlesSec.addEventListener('mouseleave', () => {
-                    principlesSec.classList.remove('is-active-state');
-                    prinBgs.forEach(bg => bg.classList.remove('active'));
-                    prinItems.forEach(i => i.classList.remove('is-focused'));
-                });
-            } 
-            // Mobile Scroll
-            else {
-                const prinMobileObserver = new IntersectionObserver((entries) => {
+                const metodoSteps = document.querySelectorAll('.metodo-step-desktop');
+                const metodoImages = document.querySelectorAll('.metodo-desktop-img');
+
+                const dtObserver = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
-                            activatePrin(entry.target);
+                            metodoSteps.forEach(s => s.classList.remove('is-active'));
+                            entry.target.classList.add('is-active');
+
+                            const stepId = entry.target.getAttribute('data-step');
+                            metodoImages.forEach(img => img.classList.remove('active'));
+                            document.getElementById(stepId)?.classList.add('active');
+                        }
+                    });
+                }, { threshold: 0.5 }); // Scatta esattamente a metà schermo
+
+                metodoSteps.forEach(step => dtObserver.observe(step));
+            }
+
+            // 5. I PILASTRI - ACCORDION FOTOGRAFICO (Desktop Hover & Mobile Scroll)
+            const pilastroRows = document.querySelectorAll('.pilastro-row');
+            
+            if (window.innerWidth >= 1024) {
+                // PC: Apertura su Hover
+                pilastroRows.forEach(row => {
+                    row.addEventListener('mouseenter', () => {
+                        pilastroRows.forEach(r => r.classList.remove('is-expanded'));
+                        row.classList.add('is-expanded');
+                    });
+                });
+                // Apre il primo di default
+                if(pilastroRows.length > 0) pilastroRows[0].classList.add('is-expanded');
+            } else {
+                // Mobile: Apertura allo scroll
+                const pilastroObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            pilastroRows.forEach(r => r.classList.remove('is-expanded'));
+                            entry.target.classList.add('is-expanded');
                         }
                     });
                 }, { threshold: 0.6 });
                 
-                prinItems.forEach(item => prinMobileObserver.observe(item));
+                pilastroRows.forEach(row => pilastroObserver.observe(row));
             }
 
             // 6. PARALLAX EFFECT
