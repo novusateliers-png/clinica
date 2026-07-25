@@ -24,6 +24,7 @@
             
             --accent: #9A8367;
             --border-hairline: rgba(10, 10, 10, 0.1);
+            --border-light: rgba(255, 255, 255, 0.15);
             
             --font-serif: 'Cormorant Garamond', serif;
             --font-sans: 'Inter', sans-serif;
@@ -56,39 +57,26 @@
 
         .noise {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            pointer-events: none; z-index: 9999; opacity: 0.04; 
+            pointer-events: none; z-index: 9999; opacity: 0.03; 
             background: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="n"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23n)"/%3E%3C/svg%3E');
         }
 
-        /* UTILITIES ANIMAZIONI */
         .split-line { overflow: hidden; display: block; }
         .split-line-inner { display: block; transform: translateY(110%); will-change: transform; }
         .split-char { display: inline-block; transform: translateY(100%); will-change: transform; opacity: 0; }
         
-        .mask-wrapper { position: relative; overflow: hidden; }
-        .mask-overlay {
-            position: absolute; inset: 0; background: var(--bg-primary); 
-            z-index: 2; transform-origin: bottom;
-        }
-        .dark-mask .mask-overlay { background: #0A0A0A; }
-
         /* ==========================================
-           2. HEADER (Inizialmente Invisibile, poi Vetro)
+           2. HEADER (Frosted Glass)
            ========================================== */
         header {
             position: fixed; top: 0; left: 0; width: 100%; padding: 2rem var(--pad-x);
             display: flex; justify-content: space-between; align-items: center;
             z-index: 1000; transition: transform 0.6s var(--ease-awwwards), background 0.4s, padding 0.4s, border 0.4s;
-            background: transparent; border-bottom: 1px solid transparent;
-            color: var(--text-light); /* Sempre bianco sulla hero */
+            background: transparent; border-bottom: 1px solid transparent; color: var(--text-light);
         }
-        /* Classe applicata via JS allo scroll */
         header.scrolled {
-            background: rgba(242, 241, 236, 0.95);
-            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            padding: 1.2rem var(--pad-x);
-            color: var(--text-primary); /* Diventa scuro per leggibilità */
+            background: rgba(242, 241, 236, 0.95); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0,0,0,0.05); padding: 1.2rem var(--pad-x); color: var(--text-primary);
         }
 
         .logo { font-family: var(--font-serif); font-size: 1.8rem; text-decoration: none; color: inherit; }
@@ -123,18 +111,13 @@
         .mobile-menu a { font-family: var(--font-serif); font-size: 3rem; text-decoration: none; color: var(--text-light); }
 
         /* ==========================================
-           3. HERO FULL SCREEN (Senza bordi/margin)
+           3. HERO FULL SCREEN
            ========================================== */
         .hero {
-            position: relative; height: 100vh; width: 100%;
-            display: flex; align-items: center; justify-content: flex-start;
-            background-color: #000; overflow: hidden;
-            padding-bottom: 0; /* Full screen perfetto */
+            position: relative; height: 100vh; width: 100%; display: flex; align-items: center; justify-content: flex-start;
+            background-color: #000; overflow: hidden; padding-bottom: 0;
         }
-        .hero-img {
-            position: absolute; inset: 0; width: 100%; height: 100%;
-            object-fit: cover; opacity: 0.75; transform: scale(1.1); will-change: transform;
-        }
+        .hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.75; transform: scale(1.1); will-change: transform; }
         .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 60%); }
         
         .hero-content { position: relative; z-index: 2; color: var(--text-light); width: 100%; margin-top: 15vh;}
@@ -147,17 +130,15 @@
         .manifesto { padding: 20vh 0; background: var(--bg-primary); }
         .manif-grid { display: grid; grid-template-columns: 1fr; gap: 4rem; }
         @media(min-width: 1024px) { .manif-grid { grid-template-columns: 1.5fr 1fr; gap: 8vw; align-items: end; } }
-        
         .manif-grid h2 { font-size: clamp(3rem, 6vw, 6.5rem); line-height: 0.95; margin-bottom: 1rem; }
         .manif-text p { font-size: clamp(1.2rem, 1.5vw, 1.5rem); font-weight: 300; color: var(--text-secondary); line-height: 1.6; }
 
         /* ==========================================
-           5. LA TRAIETTORIA (Meno AI, Più Editoriale)
+           5. LA TRAIETTORIA
            ========================================== */
         .trajectory-sec { background: #0A0A0A; color: var(--text-light); padding: 15vh 0; position: relative; border-top: 1px solid rgba(255,255,255,0.05); }
         .traj-header { text-align: center; margin-bottom: 15vh; }
         .traj-header h2 { font-size: clamp(3rem, 5vw, 5rem); margin-top: 1rem; }
-
         .traj-container { position: relative; max-width: 1200px; margin: 0 auto; padding: 0 var(--pad-x); display: flex; justify-content: space-between; }
         
         .traj-line-wrapper { position: absolute; left: 50%; top: 0; bottom: 0; transform: translateX(-50%); width: 1px; }
@@ -166,10 +147,8 @@
         
         .traj-col { width: 45%; display: flex; flex-direction: column; gap: 20vh; padding-bottom: 15vh; }
         .traj-col-right { margin-top: 15vh; } 
-
         .traj-block { position: relative; opacity: 0.4; transition: opacity 0.5s ease; }
         .traj-block.is-active { opacity: 1; }
-        
         .traj-img-wrap { width: 100%; aspect-ratio: 16/9; margin-bottom: 1.5rem; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); }
         .traj-img-wrap img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%) contrast(1.1); }
         
@@ -184,38 +163,62 @@
         }
 
         /* ==========================================
-           6. IL PROTOCOLLO (Orizzontale Corto)
+           6. IL PROTOCOLLO (Orizzontale Universale)
            ========================================== */
         .protocol-sec { background: var(--bg-secondary); overflow: hidden; border-top: 1px solid var(--border-hairline); }
+        .proto-horizontal-wrap { height: 100dvh; display: flex; align-items: center; width: 400vw; padding: 0; }
+        .proto-panel { width: 100vw; height: 100dvh; flex-shrink: 0; display: flex; flex-direction: column; justify-content: center; padding: 10vh var(--pad-x); gap: 2rem; }
         
-        /* Mobile Verticale */
-        .proto-mobile-wrap { display: flex; flex-direction: column; gap: 10vh; padding: 10vh var(--pad-x); }
-        .proto-card { display: flex; flex-direction: column; gap: 1.5rem; }
-        .proto-card-img { width: 100%; aspect-ratio: 4/5; object-fit: cover; }
-        .proto-card-num { font-family: var(--font-serif); font-size: 4rem; color: var(--accent); line-height: 1; font-style: italic; }
-        .proto-card h3 { font-size: 2.5rem; margin-bottom: 0.5rem; }
-        .proto-card p { color: var(--text-secondary); line-height: 1.6; font-size: 1.1rem; }
+        .proto-intro { text-align: left; max-width: 800px; }
+        .proto-intro h2 { font-size: clamp(3.5rem, 8vw, 6rem); line-height: 0.9; margin-bottom: 1rem; }
+        .proto-content { width: 100%; flex-shrink: 0; }
+        .proto-media { width: 100%; height: 40vh; overflow: hidden; flex-shrink: 0; border-radius: 4px; position: relative; }
+        .proto-media .mask-overlay { position: absolute; inset: 0; background: var(--bg-secondary); z-index: 2; transform-origin: bottom; }
+        .proto-media img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* Desktop Orizzontale (Più corto e veloce) */
         @media(min-width: 1024px) {
-            .proto-mobile-wrap { display: none; } 
-            
-            /* Larghezza ridotta per far scorrere velocemente (250vw) */
-            .proto-desktop-wrap { height: 100vh; display: flex; align-items: center; width: 250vw; padding: 0 var(--pad-x); }
-            
-            .proto-panel { width: 100vw; display: flex; align-items: center; justify-content: center; gap: 6vw; padding: 0 5vw; }
-            
-            .proto-intro { text-align: left; max-width: 800px; }
-            .proto-intro h2 { font-size: 6rem; line-height: 0.9; margin-bottom: 2rem; }
-            
+            .proto-horizontal-wrap { width: 250vw; } 
+            .proto-panel { flex-direction: row; align-items: center; gap: 6vw; padding: 0 5vw; }
             .proto-content { width: 40%; }
-            .proto-media { width: 45%; aspect-ratio: 3/4; }
-            .proto-media img { width: 100%; height: 100%; object-fit: cover; }
+            .proto-media { width: auto; height: 80vh; aspect-ratio: 3/4; border-radius: 0; }
         }
-        @media(max-width: 1023px) { .proto-desktop-wrap { display: none; } }
 
         /* ==========================================
-           7. EQUIPE CLINICA
+           7. LA NUOVA SEZIONE FUNZIONALE: MAPPATURA MULTILIVELLO
+           Demo visiva reale di come la clinica analizza i dati. Zero Videogiochi.
+           ========================================== */
+        .scanner-sec { background: #0A0A0A; color: #fff; border-top: 1px solid rgba(255,255,255,0.05); }
+        
+        /* Pin Container che si blocca durante lo scroll */
+        .scanner-pin { height: 100vh; position: relative; display: flex; align-items: center; overflow: hidden; }
+        
+        .scan-container { width: 100%; max-width: 1700px; margin: 0 auto; padding: 0 var(--pad-x); display: flex; align-items: center; justify-content: space-between; gap: 4vw; }
+        @media(max-width: 1023px) { .scan-container { flex-direction: column-reverse; justify-content: center; } }
+
+        /* Colonna di Testo (Si alterna con fade) */
+        .scan-text-col { width: 40%; position: relative; height: 300px; display: flex; flex-direction: column; justify-content: center; }
+        @media(max-width: 1023px) { .scan-text-col { width: 100%; height: 200px; text-align: center; } }
+        
+        .scan-text-item { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; opacity: 0; visibility: hidden; transition: opacity 0.5s ease; }
+        .scan-text-item.active { opacity: 1; visibility: visible; }
+        .scan-text-item span { color: var(--accent); font-family: var(--font-serif); font-size: 1.5rem; font-style: italic; margin-bottom: 0.5rem; }
+        .scan-text-item h3 { font-size: clamp(2.2rem, 4vw, 3.5rem); margin-bottom: 1rem; line-height: 1; }
+        .scan-text-item p { color: rgba(255,255,255,0.6); font-size: 1.1rem; line-height: 1.6; }
+
+        /* Colonna Visiva (Immagini impilate con linea laser) */
+        .scan-img-col { width: 50%; display: flex; justify-content: flex-end; }
+        @media(max-width: 1023px) { .scan-img-col { width: 100%; justify-content: center; } }
+        
+        .scan-img-wrapper { position: relative; width: 100%; max-width: 600px; aspect-ratio: 4/5; border-radius: 6px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); }
+        .scan-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; filter: brightness(0.8); }
+        .scan-img.active { opacity: 1; }
+        
+        /* Linea di Scansione fluida */
+        .scan-laser { position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: var(--accent); box-shadow: 0 0 20px var(--accent), 0 0 40px var(--accent); z-index: 10; }
+        .scan-laser::after { content: ''; position: absolute; top: -50px; left: 0; width: 100%; height: 50px; background: linear-gradient(to top, rgba(154, 131, 103, 0.3), transparent); pointer-events: none; }
+
+        /* ==========================================
+           8. EQUIPE CLINICA (Animazioni Ripristinate Perfettamente)
            ========================================== */
         .team-sec { padding: 20vh 0; background: var(--bg-primary); border-top: 1px solid var(--border-hairline); }
         .team-grid { display: grid; grid-template-columns: 1fr; gap: 6rem; margin-top: 8vh; }
@@ -224,71 +227,46 @@
             .team-member:nth-child(2) { margin-top: 10vh; }
             .team-member:nth-child(3) { margin-top: 20vh; }
         }
-        .team-img-wrap { width: 100%; aspect-ratio: 3/4; margin-bottom: 2rem; }
-        .team-img-wrap img { width: 100%; height: 100%; object-fit: cover; filter: contrast(1.05) saturate(1.1) brightness(0.9); }
-        .team-member h4 { font-size: 2.5rem; line-height: 1.1; margin-bottom: 0.5rem; }
-        .team-member p { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--accent); font-weight: 600; }
+        
+        .team-img-wrap { width: 100%; aspect-ratio: 3/4; margin-bottom: 2rem; position: relative; overflow: hidden; }
+        /* Il sipario della maschera per le foto dell'equipe */
+        .team-img-wrap .mask-overlay { position: absolute; inset: 0; background: var(--bg-primary); z-index: 2; transform-origin: top; }
+        .team-img-wrap img { width: 100%; height: 100%; object-fit: cover; filter: contrast(1.05) saturate(1.1) brightness(0.9); transform: scale(1.1); }
+        
+        .team-member h4 { font-size: 2.5rem; line-height: 1.1; margin-bottom: 0.5rem; opacity: 0; transform: translateY(20px); }
+        .team-member p { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--accent); font-weight: 600; opacity: 0; transform: translateY(20px); }
 
         /* ==========================================
-           8. LA SEZIONE WOW - IL CAVEAU BIOLOGICO
-           Infrastruttura 3D / Login Pazienti Reale
+           9. SERVIZI CLINICI (Le Nuove Stacking Cards Perfette per Mobile/PC)
            ========================================== */
-        .vault-sec {
-            background: #050505; color: #fff; position: relative; overflow: hidden;
-            perspective: 1200px; border-top: 1px solid rgba(255,255,255,0.05);
+        .services-sec { padding: 15vh 0; background: var(--bg-secondary); position: relative; }
+        .stack-cards-container { margin-top: 10vh; position: relative; padding-bottom: 5vh; }
+        
+        .stack-card {
+            position: sticky; top: 15vh; /* Cuore dell'effetto stacking */
+            height: 70vh; width: 100%; background: #0A0A0A; color: #fff;
+            border-radius: 12px; display: flex; flex-direction: column; overflow: hidden;
+            margin-bottom: 4vh; border: 1px solid rgba(255,255,255,0.05);
+            box-shadow: 0 -15px 40px rgba(0,0,0,0.15);
+            transform-origin: top center;
         }
-        .vault-pin { height: 100vh; width: 100%; display: flex; align-items: center; justify-content: center; position: relative; transform-style: preserve-3d; }
         
-        .vault-intro { position: absolute; text-align: center; z-index: 5; pointer-events: none; }
-        .vault-intro h2 { font-size: clamp(3rem, 6vw, 6rem); line-height: 0.9; margin: 1rem 0; }
-        .vault-intro p { font-size: 1.2rem; color: rgba(255,255,255,0.5); }
+        .sc-img { width: 100%; height: 50%; overflow: hidden; }
+        .sc-img img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.8); }
+        .sc-text { width: 100%; height: 50%; padding: 2rem var(--pad-x); display: flex; flex-direction: column; justify-content: center; }
         
-        .vault-cards-container { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; transform-style: preserve-3d; pointer-events: none; }
-        
-        .vault-card {
-            position: absolute; width: 350px; height: 450px;
-            background: rgba(20,20,20,0.4); border: 1px solid rgba(255,255,255,0.1);
-            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border-radius: 6px;
-            padding: 2.5rem; display: flex; flex-direction: column; justify-content: space-between;
-            will-change: transform, opacity; overflow: hidden;
-        }
-        @media (max-width: 768px) { .vault-card { width: 85vw; height: 380px; padding: 2rem; } }
+        .sc-text span { color: var(--accent); font-family: var(--font-sans); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 1rem; }
+        .sc-text h3 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; line-height: 1; }
+        .sc-text p { font-size: 1.15rem; color: rgba(255,255,255,0.7); max-width: 500px; line-height: 1.6; }
 
-        .vc-1 { z-index: 3; } .vc-2 { z-index: 2; } .vc-3 { z-index: 1; }
-
-        .vc-top span { color: var(--accent); font-family: var(--font-sans); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.2em; font-weight: 600; }
-        .vc-top h4 { font-size: 2.5rem; margin-top: 0.5rem; line-height: 1; }
-        .vc-bottom { font-family: var(--font-sans); font-size: 0.8rem; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.1em; }
-        
-        .vault-login {
-            position: absolute; z-index: 10; opacity: 0; visibility: hidden;
-            background: rgba(10,10,10,0.9); border: 1px solid rgba(255,255,255,0.15); border-left: 3px solid var(--accent);
-            padding: 4rem; width: 100%; max-width: 550px; border-radius: 4px;
+        @media(min-width: 1024px) {
+            .stack-card { flex-direction: row; }
+            .sc-img { width: 50%; height: 100%; }
+            .sc-text { width: 50%; height: 100%; padding: 4rem 6rem; }
         }
-        @media (max-width: 768px) { .vault-login { width: 90%; padding: 2.5rem; } }
-        
-        .vault-login h3 { font-size: 2.5rem; margin-bottom: 0.5rem; }
-        .vault-login p { color: var(--text-secondary); margin-bottom: 2.5rem; }
-        
-        .v-input-group { position: relative; width: 100%; margin-bottom: 1.5rem;}
-        .v-input-group input {
-            width: 100%; background: transparent; border: none; border-bottom: 1px solid rgba(255,255,255,0.2);
-            color: #fff; padding: 1rem 0; font-family: var(--font-sans); outline: none; font-size: 1rem;
-            transition: border-color 0.3s;
-        }
-        .v-input-group input:focus { border-color: var(--accent); }
-        .v-input-group input::placeholder { color: rgba(255,255,255,0.3); font-weight: 300; }
-        
-        .v-btn {
-            display: inline-block; background: var(--text-light); color: var(--bg-dark);
-            padding: 1rem 2rem; border: none; font-family: var(--font-sans); font-size: 0.8rem;
-            text-transform: uppercase; font-weight: 600; letter-spacing: 0.15em; cursor: pointer;
-            margin-top: 1rem; transition: background 0.3s; width: 100%;
-        }
-        .v-btn:hover { background: var(--accent); color: #fff; }
 
         /* ==========================================
-           9. L'ISTITUTO (Ripristinato perfettamente)
+           10. L'ISTITUTO
            ========================================== */
         .aura {
             position: relative; height: 110vh; min-height: 800px;
@@ -309,7 +287,6 @@
             animation: floatCard 8s ease-in-out infinite alternate;
         }
         @keyframes floatCard { 0% { transform: translateY(0); } 100% { transform: translateY(-15px); } }
-
         .aura-card h2 { font-size: clamp(3rem, 5vw, 5rem); margin-bottom: 1.5rem; line-height: 0.9; }
         
         .btn-elite {
@@ -318,6 +295,19 @@
             letter-spacing: 0.2em; transition: background 0.4s; margin-top: 2rem;
         }
         .btn-elite:hover { background: var(--accent); }
+
+        /* ==========================================
+           11. TRASPARENZA CLINICA (La nuova sezione Swiss Grid Anti-AI)
+           ========================================== */
+        .info-sec { padding: 15vh 0; background: var(--bg-primary); border-top: 1px solid var(--border-hairline); }
+        
+        .info-grid { display: grid; grid-template-columns: 1fr; gap: 4rem; margin-top: 8vh; }
+        @media(min-width: 1024px) { .info-grid { grid-template-columns: repeat(3, 1fr); gap: 4vw; } }
+        
+        .info-card { border-top: 1px solid var(--border-hairline); padding-top: 2rem; display: flex; flex-direction: column; }
+        .info-num { font-family: var(--font-serif); font-size: 4rem; color: var(--accent); font-style: italic; line-height: 1; margin-bottom: 1.5rem; }
+        .info-card h3 { font-size: 2rem; margin-bottom: 1rem; color: var(--text-primary); }
+        .info-card p { font-size: 1.05rem; color: var(--text-secondary); line-height: 1.6; }
 
         /* FOOTER & BADGE */
         footer { padding: 8vh 0 4vh 0; text-align: center; background: var(--bg-primary); border-top: 1px solid var(--border-hairline); }
@@ -335,9 +325,9 @@
         <a href="#" class="logo">MindNeuro</a>
         <nav class="desktop-nav">
             <a href="#manifesto">Il Manifesto</a>
-            <a href="#traiettoria">La Traiettoria</a>
             <a href="#protocollo">Il Protocollo</a>
-            <a href="#accesso">Area Pazienti</a>
+            <a href="#mappatura">La Scansione</a>
+            <a href="#servizi">Accoglienza</a>
         </nav>
         <div class="hamburger" id="hamburger">
             <span></span><span></span><span></span>
@@ -346,9 +336,9 @@
 
     <div class="mobile-menu" id="mobile-menu">
         <a href="#manifesto">Il Manifesto</a>
-        <a href="#traiettoria">La Traiettoria</a>
         <a href="#protocollo">Il Protocollo</a>
-        <a href="#accesso">Area Pazienti</a>
+        <a href="#mappatura">La Scansione</a>
+        <a href="#servizi">Accoglienza</a>
     </div>
 
     <div class="agency-badge">
@@ -427,65 +417,87 @@
         </section>
 
         <section id="protocollo" class="protocol-sec">
-            
-            <div class="proto-mobile-wrap">
-                <div class="proto-intro">
-                    <span class="label gsap-fade" style="margin-bottom: 1rem;">Il Processo</span>
-                    <h2 class="gsap-split-line" style="font-size: 3.5rem; margin-bottom: 2rem;">L'Ingegneria<br>del <em>Gemello.</em></h2>
-                </div>
-                
-                <div class="proto-card">
-                    <div class="proto-card-num gsap-fade">01.</div>
-                    <h3 class="gsap-split-line">L'Osservazione</h3>
-                    <div class="mask-wrapper vertical-mask"><div class="mask-overlay"></div><img src="https://images.unsplash.com/photo-1530497610245-94d3c16cda28?auto=format&fit=crop&w=800&q=80" class="proto-card-img img-parallax"></div>
-                    <p class="gsap-fade">Acquisizione millimetrica del fenotipo. Nessuna invasività, pura lettura della mappa biologica attraverso strumenti di calibrazione assoluta.</p>
-                </div>
-                <div class="proto-card">
-                    <div class="proto-card-num gsap-fade">02.</div>
-                    <h3 class="gsap-split-line">La Modellazione</h3>
-                    <div class="mask-wrapper vertical-mask"><div class="mask-overlay"></div><img src="https://images.unsplash.com/photo-1582719471384-894fbb16e074?auto=format&fit=crop&w=800&q=80" class="proto-card-img img-parallax"></div>
-                    <p class="gsap-fade">Creazione del gemello digitale. Trasformiamo le asimmetrie biologiche in un modello architettonico perfetto e prevedibile.</p>
-                </div>
-                <div class="proto-card">
-                    <div class="proto-card-num gsap-fade">03.</div>
-                    <h3 class="gsap-split-line">L'Anticipazione</h3>
-                    <div class="mask-wrapper vertical-mask"><div class="mask-overlay"></div><img src="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=800&q=80" class="proto-card-img img-parallax"></div>
-                    <p class="gsap-fade">L'intervento avviene nel futuro. Disegniamo traiettorie cliniche affinché il potenziale declino non trovi mai la sua manifestazione fisica.</p>
-                </div>
-            </div>
-
-            <div class="proto-desktop-wrap" id="horizontal-scroll-container">
+            <div class="proto-horizontal-wrap" id="horizontal-scroll-container">
                 
                 <div class="proto-panel">
                     <div class="proto-intro">
-                        <span class="label" style="margin-bottom: 2rem;">Il Processo</span>
-                        <h2 class="gsap-split-line">L'Ingegneria<br>del <em>Gemello.</em></h2>
-                        <p class="gsap-fade" style="font-size: 1.5rem; color: var(--text-secondary); max-width: 600px;">Tre fasi di precisione assoluta per convertire il dato organico in una prospettiva clinica infallibile.</p>
+                        <span class="label" style="margin-bottom: 1rem;">Il Processo</span>
+                        <h2 class="gsap-split-line" style="font-size: clamp(3.5rem, 8vw, 6rem);">L'Ingegneria<br>del <em>Gemello.</em></h2>
+                        <p class="gsap-fade" style="font-size: 1.25rem; color: var(--text-secondary); max-width: 600px;">Tre fasi di precisione assoluta per convertire il dato organico in una prospettiva clinica infallibile.</p>
                     </div>
                 </div>
 
                 <div class="proto-panel">
-                    <div class="proto-content">
-                        <h3 class="hz-anim" style="font-family: var(--font-serif); font-size: 5rem; color: var(--accent); font-style: italic; line-height: 1;">01.</h3>
-                        <h4 class="hz-anim" style="font-size: 3rem; margin-bottom: 1.5rem;">L'Osservazione</h4>
-                        <p class="hz-anim" style="font-size: 1.25rem; color: var(--text-secondary);">Acquisizione millimetrica del fenotipo. Nessuna invasività, pura lettura della mappa biologica attraverso strumenti di calibrazione assoluta.</p>
-                    </div>
                     <div class="proto-media mask-wrapper hz-mask">
                         <div class="mask-overlay"></div>
                         <img src="https://images.unsplash.com/photo-1530497610245-94d3c16cda28?auto=format&fit=crop&w=1000&q=80" alt="Scansione">
                     </div>
+                    <div class="proto-content">
+                        <h3 class="hz-anim" style="font-family: var(--font-serif); font-size: clamp(3rem, 6vw, 5rem); color: var(--accent); font-style: italic; line-height: 1;">01.</h3>
+                        <h4 class="hz-anim" style="font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 0.5rem;">L'Osservazione</h4>
+                        <p class="hz-anim" style="font-size: 1.15rem; color: var(--text-secondary);">Acquisizione millimetrica del fenotipo. Nessuna invasività, pura lettura della mappa biologica attraverso strumenti di calibrazione assoluta.</p>
+                    </div>
                 </div>
 
                 <div class="proto-panel">
-                    <div class="proto-content">
-                        <h3 class="hz-anim" style="font-family: var(--font-serif); font-size: 5rem; color: var(--accent); font-style: italic; line-height: 1;">02.</h3>
-                        <h4 class="hz-anim" style="font-size: 3rem; margin-bottom: 1.5rem;">La Modellazione</h4>
-                        <p class="hz-anim" style="font-size: 1.25rem; color: var(--text-secondary);">Creazione del gemello digitale. Trasformiamo le asimmetrie biologiche in un modello architettonico perfetto e prevedibile.</p>
-                    </div>
                     <div class="proto-media mask-wrapper hz-mask">
                         <div class="mask-overlay"></div>
                         <img src="https://images.unsplash.com/photo-1582719471384-894fbb16e074?auto=format&fit=crop&w=1000&q=80" alt="Dati">
                     </div>
+                    <div class="proto-content">
+                        <h3 class="hz-anim" style="font-family: var(--font-serif); font-size: clamp(3rem, 6vw, 5rem); color: var(--accent); font-style: italic; line-height: 1;">02.</h3>
+                        <h4 class="hz-anim" style="font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 0.5rem;">La Modellazione</h4>
+                        <p class="hz-anim" style="font-size: 1.15rem; color: var(--text-secondary);">Creazione del gemello digitale. Trasformiamo le asimmetrie biologiche in un modello architettonico perfetto e prevedibile.</p>
+                    </div>
+                </div>
+
+                <div class="proto-panel">
+                    <div class="proto-media mask-wrapper hz-mask">
+                        <div class="mask-overlay"></div>
+                        <img src="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=1000&q=80" alt="Previsione">
+                    </div>
+                    <div class="proto-content">
+                        <h3 class="hz-anim" style="font-family: var(--font-serif); font-size: clamp(3rem, 6vw, 5rem); color: var(--accent); font-style: italic; line-height: 1;">03.</h3>
+                        <h4 class="hz-anim" style="font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 0.5rem;">L'Anticipazione</h4>
+                        <p class="hz-anim" style="font-size: 1.15rem; color: var(--text-secondary);">L'intervento avviene nel futuro. Disegniamo traiettorie cliniche affinché il declino non trovi mai la sua manifestazione fisica.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="mappatura" class="scanner-sec">
+            <div class="scanner-pin" id="scanner-pin">
+                <div class="container scan-container">
+                    
+                    <div class="scan-text-col">
+                        <div class="scan-text-item active" data-scan="1">
+                            <span>Livello I.</span>
+                            <h3>Mappatura<br>Strutturale</h3>
+                            <p>Risonanza Magnetica ad altissimo campo (7 Tesla). Evidenzia con precisione sub-millimetrica micro-lesioni invisibili agli standard clinici odierni.</p>
+                        </div>
+                        <div class="scan-text-item" data-scan="2">
+                            <span>Livello II.</span>
+                            <h3>Connettività<br>Neurale</h3>
+                            <p>Trattografia DTI per visualizzare i fasci di sostanza bianca. Tracciamo l'efficienza dei segnali bio-elettrici per individuare declini silenti.</p>
+                        </div>
+                        <div class="scan-text-item" data-scan="3">
+                            <span>Livello III.</span>
+                            <h3>Proiezione<br>Genomica AI</h3>
+                            <p>Il modello definitivo. I dati strutturali si fondono con il sequenziamento del DNA, generando una proiezione della salute futura accurata al 99.8%.</p>
+                        </div>
+                    </div>
+
+                    <div class="scan-img-col">
+                        <div class="scan-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1530497610245-94d3c16cda28?auto=format&fit=crop&w=800&q=80" class="scan-img active" id="scan-img-1" alt="MRI">
+                            <img src="https://images.unsplash.com/photo-1507413245164-6160d8298b31?auto=format&fit=crop&w=800&q=80" class="scan-img" id="scan-img-2" alt="DTI">
+                            <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=80" class="scan-img" id="scan-img-3" alt="AI">
+                            
+                            <div class="scan-laser" id="scan-laser"></div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </section>
@@ -497,77 +509,66 @@
                     <h2 class="gsap-split-line" style="font-size: clamp(3rem, 6vw, 6rem);">L'Elite <em>Clinica.</em></h2>
                 </div>
 
-                <div class="team-grid">
+                <div class="team-grid" id="team-trigger">
                     <div class="team-member">
-                        <div class="team-img-wrap mask-wrapper vertical-mask">
+                        <div class="team-img-wrap">
                             <div class="mask-overlay"></div>
-                            <img src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&fit=crop&w=800&q=80" class="img-parallax" alt="Dr. Valenti">
+                            <img src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&fit=crop&w=800&q=80" alt="Dr. Valenti">
                         </div>
-                        <h4 class="gsap-fade">Dr.ssa E. Valenti</h4>
-                        <p class="gsap-fade">Primario Genomica</p>
+                        <h4 class="team-text">Dr.ssa E. Valenti</h4>
+                        <p class="team-text">Primario Genomica</p>
                     </div>
                     <div class="team-member">
-                        <div class="team-img-wrap mask-wrapper vertical-mask">
+                        <div class="team-img-wrap">
                             <div class="mask-overlay"></div>
-                            <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=800&q=80" class="img-parallax" alt="Dr. Righi">
+                            <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=800&q=80" alt="Dr. Righi">
                         </div>
-                        <h4 class="gsap-fade">Dr. M. Righi</h4>
-                        <p class="gsap-fade">Direttore Neuroscienze</p>
+                        <h4 class="team-text">Dr. M. Righi</h4>
+                        <p class="team-text">Direttore Neuroscienze</p>
                     </div>
                     <div class="team-member">
-                        <div class="team-img-wrap mask-wrapper vertical-mask">
+                        <div class="team-img-wrap">
                             <div class="mask-overlay"></div>
-                            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80" class="img-parallax" alt="Dr. Costa">
+                            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80" alt="Dr. Costa">
                         </div>
-                        <h4 class="gsap-fade">Dr.ssa S. Costa</h4>
-                        <p class="gsap-fade">Head of Bio-Data</p>
+                        <h4 class="team-text">Dr.ssa S. Costa</h4>
+                        <p class="team-text">Head of Bio-Data</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="vault-sec" id="accesso">
-            <div class="vault-pin" id="vault-pin">
+        <section id="servizi" class="services-sec">
+            <div class="container">
+                <span class="label gsap-fade" style="margin-bottom: 1rem;">Servizi Clinici</span>
+                <h2 class="gsap-split-line" style="font-size: clamp(3rem, 6vw, 6rem);">Accoglienza<br><em>Su Misura.</em></h2>
                 
-                <div class="vault-intro" id="vault-intro">
-                    <span class="label" style="color: var(--accent); margin-bottom: 1rem;">Area Pazienti Protetta</span>
-                    <h2>Il Caveau<br><em>Biologico.</em></h2>
-                    <p>Referti crittografati e accessibili esclusivamente tramite chiavi fisiche.</p>
-                </div>
-
-                <div class="vault-cards-container">
-                    <div class="vault-card vc-1">
-                        <div class="vc-top">
-                            <span>Set Dati 01</span>
-                            <h4>Mappatura 7T</h4>
+                <div class="stack-cards-container">
+                    <div class="stack-card">
+                        <div class="sc-img"><img src="https://images.unsplash.com/photo-1582719478250-c89af14af736?auto=format&fit=crop&w=1000&q=80" alt="Soggiorno"></div>
+                        <div class="sc-text">
+                            <span>Servizio I.</span>
+                            <h3>Il Soggiorno</h3>
+                            <p>Suite cliniche private progettate per garantire massimo comfort e isolamento acustico durante il protocollo diagnostico di 48 ore.</p>
                         </div>
-                        <div class="vc-bottom">320GB • Criptato</div>
                     </div>
-                    <div class="vault-card vc-2">
-                        <div class="vc-top">
-                            <span>Set Dati 02</span>
-                            <h4>WGS Genoma</h4>
+                    <div class="stack-card">
+                        <div class="sc-img"><img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=1000&q=80" alt="Privacy"></div>
+                        <div class="sc-text">
+                            <span>Servizio II.</span>
+                            <h3>Protocollo Privacy</h3>
+                            <p>Anonimato assoluto garantito dalle leggi svizzere. I dati personali sono scissi dalle refertazioni mediche fin dal primo ingresso.</p>
                         </div>
-                        <div class="vc-bottom">180GB • Criptato</div>
                     </div>
-                    <div class="vault-card vc-3">
-                        <div class="vc-top">
-                            <span>Set Dati 03</span>
-                            <h4>Sintesi AI</h4>
+                    <div class="stack-card">
+                        <div class="sc-img"><img src="https://images.unsplash.com/photo-1549187774-b4e9b0445b41?auto=format&fit=crop&w=1000&q=80" alt="Trasporto"></div>
+                        <div class="sc-text">
+                            <span>Servizio III.</span>
+                            <h3>Trasporto Protetto</h3>
+                            <p>Servizio di trasferimento privato e discreto dagli aeroporti internazionali direttamente alle strutture sotterranee dell'istituto.</p>
                         </div>
-                        <div class="vc-bottom">Modello Predittivo • Attivo</div>
                     </div>
                 </div>
-
-                <div class="vault-login" id="vault-login">
-                    <h3>Accesso Privato</h3>
-                    <p>Inserire la chiave di sicurezza hardware fornita in sede per sbloccare il fascicolo biologico.</p>
-                    <div class="v-input-group">
-                        <input type="password" placeholder="Key ID (Es. MND-7X9P)">
-                    </div>
-                    <button class="v-btn">Sblocca Caveau</button>
-                </div>
-
             </div>
         </section>
 
@@ -579,7 +580,34 @@
                 <span class="label" style="display:block; margin-bottom: 1.5rem; color: var(--text-secondary);">Lo Spazio Fisico</span>
                 <h2 class="serif">Il Santuario<br>della <em>Precisione</em></h2>
                 <p style="font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 2rem;">Un ambiente progettato per il silenzio, l'assoluta privacy e la tecnologia più avanzata al mondo. Accettazione esclusivamente su referenza privata.</p>
-                <a href="#" class="btn-elite">Richiedi Contatto</a>
+                <a href="#" class="btn-elite" style="margin-top: 1rem;">Richiedi Contatto</a>
+            </div>
+        </section>
+
+        <section id="info" class="info-sec">
+            <div class="container">
+                <div class="info-header">
+                    <span class="label gsap-fade" style="margin-bottom: 1rem;">Informazioni Preliminari</span>
+                    <h2 class="gsap-split-line" style="font-size: clamp(3rem, 6vw, 5rem);">Trasparenza<br><em>Clinica.</em></h2>
+                </div>
+                
+                <div class="info-grid">
+                    <div class="info-card block-reveal">
+                        <span class="info-num">01.</span>
+                        <h3>Tempistiche</h3>
+                        <p>Il protocollo è un'esperienza immersiva. Richiede 48 ore di screening presso la nostra struttura, garantendo un'indagine approfondita senza alcuna fretta ospedaliera. La refertazione del gemello digitale avviene nei 14 giorni successivi.</p>
+                    </div>
+                    <div class="info-card block-reveal">
+                        <span class="info-num">02.</span>
+                        <h3>Privacy dei Dati</h3>
+                        <p>MindNeuro è una struttura di puro diritto svizzero. I dati del sequenziamento genomico sono fisicamente separati dalle reti pubbliche e crittografati. Non condividiamo alcuna informazione con terze parti o enti di ricerca.</p>
+                    </div>
+                    <div class="info-card block-reveal">
+                        <span class="info-num">03.</span>
+                        <h3>Accesso e Costi</h3>
+                        <p>Per mantenere uno standard di cura assoluto, l'istituto accoglie un numero limitato di pazienti. L'ammissione avviene tramite referenza medica o valutazione direttiva. Il costo del protocollo integrale parte da 12.500 CHF.</p>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -675,19 +703,8 @@
                 gsap.to(chars, { y: "0%", opacity: 1, duration: 1, ease: "power3.out", stagger: 0.02, scrollTrigger: { trigger: title, start: "top 85%" } });
             });
 
-            document.querySelectorAll('.gsap-fade').forEach(el => {
+            document.querySelectorAll('.gsap-fade, .block-reveal').forEach(el => {
                 gsap.fromTo(el, { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: "power3.out", scrollTrigger: { trigger: el, start: "top 90%" } });
-            });
-
-            document.querySelectorAll('.vertical-mask').forEach(wrap => {
-                const overlay = wrap.querySelector('.mask-overlay');
-                const img = wrap.querySelector('img');
-                const tl = gsap.timeline({ scrollTrigger: { trigger: wrap, start: "top 80%" } });
-                tl.to(overlay, { scaleY: 0, duration: 1.4, ease: "power4.inOut" }).to(img, { scale: 1, duration: 2, ease: "power3.out" }, "-=1.2");
-            });
-
-            document.querySelectorAll('.img-parallax').forEach(img => {
-                gsap.fromTo(img, { yPercent: -10 }, { yPercent: 10, ease: "none", scrollTrigger: { trigger: img.parentElement, start: "top bottom", end: "bottom top", scrub: true } });
             });
 
             // 5. LA TRAIETTORIA
@@ -696,59 +713,63 @@
                 gsap.to(block, { opacity: 1, duration: 0.5, scrollTrigger: { trigger: block, start: "top 70%", toggleActions: "play none none reverse" } });
             });
 
-            // 6. IL PROTOCOLLO - SCROLL ORIZZONTALE DIMEZZATO (Rapido e Pulito)
-            if (window.innerWidth >= 1024) {
-                const panels = gsap.utils.toArray('.proto-panel');
-                let scrollTween = gsap.to(panels, {
-                    xPercent: -100 * (panels.length - 1), ease: "none",
-                    scrollTrigger: { trigger: ".protocol-sec", pin: true, scrub: 0.5, start: "top top", end: "+=100%" } // Dimezzato +=100%
-                });
-
-                document.querySelectorAll('.hz-mask').forEach(wrap => {
-                    const overlay = wrap.querySelector('.mask-overlay'); const img = wrap.querySelector('img');
-                    gsap.to(overlay, { scaleY: 0, duration: 1.5, ease: "power4.inOut", scrollTrigger: { trigger: wrap, containerAnimation: scrollTween, start: "left 70%" } });
-                    gsap.to(img, { scale: 1, duration: 2, ease: "power3.out", scrollTrigger: { trigger: wrap, containerAnimation: scrollTween, start: "left 70%" } });
-                });
-
-                document.querySelectorAll('.hz-anim').forEach(el => {
-                    gsap.fromTo(el, { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: "power3.out", scrollTrigger: { trigger: el, containerAnimation: scrollTween, start: "left 80%" } });
-                });
-            }
-
-            // 7. LA SUPER ANIMAZIONE 3D - IL CAVEAU (Area Pazienti)
-            const vaultTl = gsap.timeline({
-                scrollTrigger: { trigger: "#accesso", pin: true, scrub: 1, start: "top top", end: "+=200%" }
+            // 6. IL PROTOCOLLO - SCROLL ORIZZONTALE
+            const panels = gsap.utils.toArray('.proto-panel');
+            let scrollTween = gsap.to(panels, {
+                xPercent: -100 * (panels.length - 1), ease: "none",
+                scrollTrigger: { trigger: ".protocol-sec", pin: true, scrub: 0.5, start: "top top", end: () => "+=" + (document.querySelector('.proto-horizontal-wrap').offsetWidth * 0.6) }
             });
 
-            // Setto le carte distanti in prospettiva 3D
-            gsap.set('.vc-1', { x: "-40vw", y: "-15vh", z: -200, rotationY: 25, rotationX: 10, opacity: 0 });
-            gsap.set('.vc-2', { x: "40vw", y: "15vh", z: -400, rotationY: -25, rotationX: -10, opacity: 0 });
-            gsap.set('.vc-3', { x: "0vw", y: "35vh", z: 100, rotationX: 30, opacity: 0 });
-            gsap.set('#vault-login', { scale: 0.9 });
-            
-            // Faccio svanire l'intro
-            vaultTl.to('#vault-intro', { opacity: 0, y: -50, duration: 1 })
-            
-            // Faccio volare le card al centro 
-            .to(['.vc-1', '.vc-2', '.vc-3'], {
-                x: 0, y: 0, z: 0, rotationY: 0, rotationX: 0, opacity: 1,
-                duration: 2, stagger: 0.2, ease: "power2.inOut"
-            }, "-=0.5")
-            
-            // Le impilo perfettamente aggiungendo una lieve profondità
-            .to('.vc-1', { z: 40, duration: 1, ease: "power1.inOut" }, "stack")
-            .to('.vc-2', { z: 20, duration: 1, ease: "power1.inOut" }, "stack")
-            .to('.vc-3', { z: 0, duration: 1, ease: "power1.inOut" }, "stack")
-            
-            // Le comprimo in una singola barra luminosa
-            .to(['.vc-1', '.vc-2', '.vc-3'], { height: "2px", padding: 0, color: "transparent", border: "none", background: "#9A8367", duration: 1.5, ease: "expo.inOut" })
-            .to(['.vc-1', '.vc-2', '.vc-3'], { width: "100px", duration: 1, ease: "expo.inOut" })
-            
-            // La barra esplode nel form di login finale
-            .to(['.vc-1', '.vc-2', '.vc-3'], { opacity: 0, duration: 0.5 })
-            .to('#vault-login', { autoAlpha: 1, scale: 1, duration: 1.5, ease: "expo.out" }, "-=0.5");
+            document.querySelectorAll('.hz-mask').forEach(wrap => {
+                const overlay = wrap.querySelector('.mask-overlay'); const img = wrap.querySelector('img');
+                gsap.to(overlay, { scaleY: 0, duration: 1.5, ease: "power4.inOut", scrollTrigger: { trigger: wrap, containerAnimation: scrollTween, start: "left 70%" } });
+                gsap.to(img, { scale: 1, duration: 2, ease: "power3.out", scrollTrigger: { trigger: wrap, containerAnimation: scrollTween, start: "left 70%" } });
+            });
 
-            // 8. PARALLAX L'ISTITUTO (Aura)
+            document.querySelectorAll('.hz-anim').forEach(el => {
+                gsap.fromTo(el, { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: "power3.out", scrollTrigger: { trigger: el, containerAnimation: scrollTween, start: "left 80%" } });
+            });
+
+            // 7. LA MAPPATURA (NUOVO SCANNER CLINICO)
+            const scanTl = gsap.timeline({
+                scrollTrigger: { trigger: "#scanner-pin", pin: true, scrub: true, start: "top top", end: "+=150%" }
+            });
+
+            // Muove il laser
+            scanTl.to('#scan-laser', { top: "100%", ease: "none", duration: 3 });
+
+            // Cambi di Immagine e Testo basati sul progresso del laser
+            scanTl.call(() => { document.querySelectorAll('.scan-img').forEach(i=>i.classList.remove('active')); document.getElementById('scan-img-2').classList.add('active'); }, [], 1);
+            scanTl.call(() => { document.querySelectorAll('.scan-text-item').forEach(i=>i.classList.remove('active')); document.querySelector('.scan-text-item[data-scan="2"]').classList.add('active'); }, [], 1);
+            
+            scanTl.call(() => { document.querySelectorAll('.scan-img').forEach(i=>i.classList.remove('active')); document.getElementById('scan-img-3').classList.add('active'); }, [], 2);
+            scanTl.call(() => { document.querySelectorAll('.scan-text-item').forEach(i=>i.classList.remove('active')); document.querySelector('.scan-text-item[data-scan="3"]').classList.add('active'); }, [], 2);
+
+
+            // 8. EQUIPE CLINICA (Animazioni Ripristinate Perfettamente!)
+            document.querySelectorAll('.team-member').forEach((member) => {
+                const mask = member.querySelector('.mask-overlay');
+                const img = member.querySelector('img');
+                const text = member.querySelectorAll('.team-text');
+                
+                const tl = gsap.timeline({ scrollTrigger: { trigger: member, start: "top 80%" }});
+                tl.to(mask, { scaleY: 0, duration: 1.2, ease: "power4.inOut" })
+                  .fromTo(img, { scale: 1.2 }, { scale: 1, duration: 1.5, ease: "power3.out" }, "-=1")
+                  .fromTo(text, { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, stagger: 0.1 }, "-=1");
+            });
+
+            // 9. STACKING CARDS (Servizi Clinici)
+            const stackCards = gsap.utils.toArray('.stack-card');
+            stackCards.forEach((card, i) => {
+                if(i !== stackCards.length - 1) {
+                    gsap.to(card, {
+                        scale: 0.95, opacity: 0.5,
+                        scrollTrigger: { trigger: stackCards[i+1], start: "top bottom", end: "top 15vh", scrub: true }
+                    });
+                }
+            });
+
+            // 10. PARALLAX L'ISTITUTO
             const auraBg = document.getElementById('aura-parallax');
             window.addEventListener('scroll', () => {
                 const scrolled = window.scrollY;
