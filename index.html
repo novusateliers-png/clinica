@@ -312,9 +312,31 @@
         /* FOOTER & BADGE */
         footer { padding: 8vh 0 4vh 0; text-align: center; background: var(--bg-primary); border-top: 1px solid var(--border-hairline); }
 
-        .agency-badge { position: fixed; bottom: 2rem; right: var(--pad-x); text-align: right; z-index: 1000; color: var(--text-primary); pointer-events: none; mix-blend-mode: difference; color: #fff;}
+        .agency-badge { position: fixed; bottom: 240px; right: var(--pad-x); text-align: right; z-index: 1000; color: var(--text-primary); pointer-events: none; mix-blend-mode: difference; color: #fff;}
         .agency-badge span { display: block; }
         @media (max-width: 768px) { .agency-badge { display: none; } }
+    
+        /* ==========================================
+           12. WIDGET SITO VETRINA
+           ========================================== */
+        .demo-widget {
+            position: fixed; bottom: 20px; right: 20px;
+            width: 320px; background-color: #1a1a1a; border-radius: 8px; padding: 24px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 10000;
+            font-family: var(--font-sans); color: #fff; border: 1px solid rgba(255,255,255,0.05);
+        }
+        .demo-widget h4 { color: #A66543; font-size: 1.2rem; margin-bottom: 12px; font-weight: 500; font-family: var(--font-sans); }
+        .demo-widget p { font-size: 0.9rem; color: #d0d0d0; line-height: 1.4; margin-bottom: 20px; font-family: var(--font-sans); }
+        .demo-widget a.demo-btn {
+            display: block; text-align: center; background-color: #9D5B3A; color: #fff;
+            text-decoration: none; padding: 12px; font-size: 0.75rem; font-weight: 600;
+            letter-spacing: 0.05em; border-radius: 4px; transition: background 0.3s; font-family: var(--font-sans);
+        }
+        .demo-widget a.demo-btn:hover { background-color: #8A4D2E; }
+        @media (max-width: 768px) {
+            .demo-widget { right: 10px; bottom: 10px; width: calc(100% - 20px); }
+        }
+    
     </style>
 </head>
 <body>
@@ -326,7 +348,6 @@
         <nav class="desktop-nav">
             <a href="#manifesto">Il Manifesto</a>
             <a href="#protocollo">Il Protocollo</a>
-            <a href="#mappatura">La Scansione</a>
             <a href="#servizi">Accoglienza</a>
         </nav>
         <div class="hamburger" id="hamburger">
@@ -337,7 +358,6 @@
     <div class="mobile-menu" id="mobile-menu">
         <a href="#manifesto">Il Manifesto</a>
         <a href="#protocollo">Il Protocollo</a>
-        <a href="#mappatura">La Scansione</a>
         <a href="#servizi">Accoglienza</a>
     </div>
 
@@ -466,41 +486,7 @@
             </div>
         </section>
 
-        <section id="mappatura" class="scanner-sec">
-            <div class="scanner-pin" id="scanner-pin">
-                <div class="container scan-container">
-                    
-                    <div class="scan-text-col">
-                        <div class="scan-text-item active" data-scan="1">
-                            <span>Livello I.</span>
-                            <h3>Mappatura<br>Strutturale</h3>
-                            <p>Risonanza Magnetica ad altissimo campo (7 Tesla). Evidenzia con precisione sub-millimetrica micro-lesioni invisibili agli standard clinici odierni.</p>
-                        </div>
-                        <div class="scan-text-item" data-scan="2">
-                            <span>Livello II.</span>
-                            <h3>Connettività<br>Neurale</h3>
-                            <p>Trattografia DTI per visualizzare i fasci di sostanza bianca. Tracciamo l'efficienza dei segnali bio-elettrici per individuare declini silenti.</p>
-                        </div>
-                        <div class="scan-text-item" data-scan="3">
-                            <span>Livello III.</span>
-                            <h3>Proiezione<br>Genomica AI</h3>
-                            <p>Il modello definitivo. I dati strutturali si fondono con il sequenziamento del DNA, generando una proiezione della salute futura accurata al 99.8%.</p>
-                        </div>
-                    </div>
-
-                    <div class="scan-img-col">
-                        <div class="scan-img-wrapper">
-                            <img src="https://images.unsplash.com/photo-1530497610245-94d3c16cda28?auto=format&fit=crop&w=800&q=80" class="scan-img active" id="scan-img-1" alt="MRI">
-                            <img src="https://images.unsplash.com/photo-1507413245164-6160d8298b31?auto=format&fit=crop&w=800&q=80" class="scan-img" id="scan-img-2" alt="DTI">
-                            <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=80" class="scan-img" id="scan-img-3" alt="AI">
-                            
-                            <div class="scan-laser" id="scan-laser"></div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </section>
+        
 
         <section class="team-sec">
             <div class="container">
@@ -545,7 +531,7 @@
                 
                 <div class="stack-cards-container">
                     <div class="stack-card">
-                        <div class="sc-img"><img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1920&q=80" alt="Soggiorno"></div>
+                        <div class="sc-img"><img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1000&q=80" alt="Soggiorno"></div>
                         <div class="sc-text">
                             <span>Servizio I.</span>
                             <h3>Il Soggiorno</h3>
@@ -730,22 +716,6 @@
                 gsap.fromTo(el, { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: "power3.out", scrollTrigger: { trigger: el, containerAnimation: scrollTween, start: "left 80%" } });
             });
 
-            // 7. LA MAPPATURA (NUOVO SCANNER CLINICO)
-            const scanTl = gsap.timeline({
-                scrollTrigger: { trigger: "#scanner-pin", pin: true, scrub: true, start: "top top", end: "+=150%" }
-            });
-
-            // Muove il laser
-            scanTl.to('#scan-laser', { top: "100%", ease: "none", duration: 3 });
-
-            // Cambi di Immagine e Testo basati sul progresso del laser
-            scanTl.call(() => { document.querySelectorAll('.scan-img').forEach(i=>i.classList.remove('active')); document.getElementById('scan-img-2').classList.add('active'); }, [], 1);
-            scanTl.call(() => { document.querySelectorAll('.scan-text-item').forEach(i=>i.classList.remove('active')); document.querySelector('.scan-text-item[data-scan="2"]').classList.add('active'); }, [], 1);
-            
-            scanTl.call(() => { document.querySelectorAll('.scan-img').forEach(i=>i.classList.remove('active')); document.getElementById('scan-img-3').classList.add('active'); }, [], 2);
-            scanTl.call(() => { document.querySelectorAll('.scan-text-item').forEach(i=>i.classList.remove('active')); document.querySelector('.scan-text-item[data-scan="3"]').classList.add('active'); }, [], 2);
-
-
             // 8. EQUIPE CLINICA (Animazioni Ripristinate Perfettamente!)
             document.querySelectorAll('.team-member').forEach((member) => {
                 const mask = member.querySelector('.mask-overlay');
@@ -784,5 +754,12 @@
 
         });
     </script>
+
+    <div class="demo-widget">
+        <h4>Sito Vetrina</h4>
+        <p>Questo è un ambiente dimostrativo creato per mostrare il design e le funzionalità.</p>
+        <a href="https://novus.novus-ateliers.workers.dev/" class="demo-btn">TORNA AL SITO PRINCIPALE</a>
+    </div>
+    
 </body>
 </html>
